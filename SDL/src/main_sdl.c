@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 11:12:41 2015 Julie Terranova
-** Last update Wed Mar  4 18:59:49 2015 Julie Terranova
+** Last update Wed Mar  4 20:10:48 2015 Julie Terranova
 */
 
 #include "lemisdl.h"
@@ -20,6 +20,6 @@ int	main()
       printf("./lemipc is required before you start the graphic part\n");
       return (-1);
     }
-  draw(shared->map);
+  draw(shared, shared->map);
   return (0);
 }
