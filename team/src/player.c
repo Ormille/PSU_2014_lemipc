@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 **
 ** Started on  Wed Mar  4 15:58:48 2015 moran-_d
-** Last update Wed Mar  4 19:47:51 2015 moran-_d
+** Last update Wed Mar  4 20:35:27 2015 moran-_d
 */
 
 #include <unistd.h>
@@ -23,12 +23,13 @@ int place_player(shared_t *shared, player_t *player)
   sops.sem_op = -1;
   semop(shared->sem_id, &sops, 1);
   sops.sem_op = 1;
-  for (i = 0; i < MAX_PLAYER_PLACE_TRY; i++)
+  i = -1;
+  while (++i < MAX_PLAYER_PLACE_TRY)
     {
       player->x = rand() % MAP_X;
       player->y = rand() % MAP_Y;
-      if (shared->map[player->x][player->y] == 0)
-	//	  && check_enemy_in_radius(1) == 0)
+      if (shared->map[player->x][player->y] == 0
+	  && check_enemy_in_radius(shared, player, 1) == 0)
 	{
 	  shared->map[player->x][player->y] = player->color;
 	  semop(shared->sem_id, &sops, 1);
@@ -58,12 +59,12 @@ int init_player(shared_t *shared, int color, int flag)
 {
   player_t player;
 
-  printf("player INIT : color = %d -- flag = %d\n", color, flag);
   player.color = color;
   player.regroup = 1;
   player.flag = flag;
   if (place_player(shared, &player) != 0)
     return (-1);
+  printf("player %d --- x = %d --- y = %d\n", player.x, player.y, color);
   msg_graph(shared, &player, 1, (int[2]){0, 0}); /* pop */
   exec_ia(shared, &player);
   return (0);

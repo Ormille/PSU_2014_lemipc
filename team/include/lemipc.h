@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 11:13:21 2015 Julie Terranova
-** Last update Wed Mar  4 20:11:25 2015 moran-_d
+** Last update Wed Mar  4 20:32:30 2015 moran-_d
 */
 
 #ifndef LEMIPC_H__
@@ -64,5 +64,7 @@ int create_player(shared_t *shared, int color);
 /* MSG */
 int msg_graph(shared_t *shared,player_t *player, int opcode, int xy[2]);
 
+/* ACTION_SCOUT */
+int check_enemy_in_radius(shared_t *shared, player_t *player, int radius);
 
 #endif

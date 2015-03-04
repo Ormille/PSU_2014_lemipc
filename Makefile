@@ -5,7 +5,7 @@
 ## Login   <terran_j@epitech.net>
 ##
 ## Started on  Wed Mar  4 11:09:24 2015 Julie Terranova
-## Last update Wed Mar  4 20:12:33 2015 moran-_d
+## Last update Wed Mar  4 20:32:10 2015 moran-_d
 ##
 
 NAME1=	lemipc
@@ -21,6 +21,7 @@ SRC1=	$(DIR1)main.c \
 	$(DIR1)player.c \
 	$(DIR1)get_shared.c \
 	$(DIR1)msg.c \
+	$(DIR1)action_scout.c \
 
 SRC2=    $(DIR2)main_sdl.c \
 	 $(DIR2)draw.c \
