@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 ** 
 ** Started on  Wed Mar  4 15:27:57 2015 moran-_d
-** Last update Wed Mar  4 15:51:18 2015 moran-_d
+** Last update Wed Mar  4 18:09:36 2015 moran-_d
 */
 
 #include <stdlib.h>
@@ -14,6 +14,8 @@
 
 shared_t *get_shm(shared_t *shared)
 {
+  void *addr;
+
   shared->shm_id = shmget(shared->key, SHM_SIZE, SHM_R | SHM_W);
   if (shared->shm_id == -1)
     {
@@ -27,29 +29,20 @@ shared_t *get_shm(shared_t *shared)
         }
       /* TODO MEMSET EVERYTHING !!! */
     }
+  if ((addr = shmat(shared->shm_id, NULL, SHM_R | SHM_W)) == NULL)
+    return (NULL);
+  shared->map = (int (*)[MAP_Y]) addr;
   return (shared);
 }
 
 shared_t *get_sem(shared_t *shared)
 {
-  shared->sem_access = semget(shared->key, 1, SHM_R | SHM_W);
-  if (shared->shm_access == -1)
+  shared->sem_id = semget(shared->key, 2, SHM_R | SHM_W);
+  if (shared->shm_id == -1)
     {
-      shared->sem_access = semget(shared->key, 1,
-				  IPC_CREAT | SHM_R | SHM_W);
-      if (shared->sem_access == -1)
-        {
-          printf("Error during SEM creation\n");
-          free(shared);
-          return (NULL);
-        }
-    }
-  shared->sem_turn = semget(shared->key, 2, SHM_R | SHM_W);
-  if (shared->sem_turn == -1)
-    {
-      shared->sem_turn = semget(shared->key, 2,
-				IPC_CREAT | SHM_R | SHM_W);
-      if (shared->sem_turn == -1)
+      shared->sem_id = semget(shared->key, 2,
+			      IPC_CREAT | SHM_R | SHM_W);
+      if (shared->sem_id == -1)
         {
           printf("Error during SEM creation\n");
           free(shared);

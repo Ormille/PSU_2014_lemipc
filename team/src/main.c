@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 11:12:41 2015 Julie Terranova
-** Last update Wed Mar  4 15:54:41 2015 moran-_d
+** Last update Wed Mar  4 17:56:00 2015 moran-_d
 */
 
 #include <stdlib.h>
@@ -30,5 +30,6 @@ int	main(int argc, char **argv)
   if ((shared = get_shared()) == NULL)
     return (-1);
   init_team(shared, nb_players);
+  free(shared);
   return (0);
 }
