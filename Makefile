@@ -5,26 +5,29 @@
 ## Login   <terran_j@epitech.net>
 ##
 ## Started on  Wed Mar  4 11:09:24 2015 Julie Terranova
-## Last update Wed Mar  4 15:46:15 2015 Julie Terranova
+## Last update Wed Mar  4 18:16:07 2015 moran-_d
 ##
 
-NAME1=	 lemipc
+NAME1=	lemipc
 
-NAME2=	 show
+NAME2=	show
 
-DIR1=    team/src/
+DIR1=   team/src/
 
-DIR2=    SDL/src/
+DIR2=   SDL/src/
 
-SRC1=    $(DIR1)main_team.c \
+SRC1=	$(DIR1)main.c \
+	$(DIR1)team.c \
+	$(DIR1)player.c \
+	$(DIR1)get_shared.c \
 
 SRC2=    $(DIR2)main_sdl.c \
 	 $(DIR2)draw.c \
 	 $(DIR2)move.c \
 
-OBJ1=    $(SRC1:.c=.o)
+OBJ1=   $(SRC1:.c=.o)
 
-OBJ2=    $(SRC2:.c=.o)
+OBJ2=   $(SRC2:.c=.o)
 
 CFLAGS= -Wall -Wextra -Werror -I team/include/ -I SDL/include/
 

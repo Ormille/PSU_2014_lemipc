@@ -5,28 +5,52 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 11:13:21 2015 Julie Terranova
-** Last update Wed Mar  4 15:45:51 2015 moran-_d
+** Last update Wed Mar  4 18:12:21 2015 moran-_d
 */
 
 #ifndef LEMIPC_H__
 # define LEMIPC_H__
 
+#include <sys/sem.h>
+#include <sys/shm.h>
+#include <sys/msg.h>
+
 #define KEYWORD	"banane-citron"
 
 #define CELL_SIZE	sizeof(int)
-#define MAP_X		15
-#define MAP_Y		15
+#define MAP_X		25
+#define MAP_Y		25
+#define MAP_SIZE	(CELL_SIZE * CELL_SIZE * MAP_X * MAP_Y)
 #define DATA_SIZE	sizeof(int)
-#define SHM_SIZE	(CELL_SIZE * CELL_SIZE * MAP_X * MAP_Y + DATA_SIZE)
+#define SHM_SIZE	(MAP_SIZE + DATA_SIZE)
 
-#include "X11/Xlib.h"
+#define MAX_TEAM		15
+#define MAX_PLAYER_PLACE_TRY	100
 
 typedef struct shared_s {
   key_t	key;
   int	shm_id;
-  int	sem_access;
-  int	sem_turn;
+  int	sem_id; /* sem 0 == SHM ACCESS -- sem 1 == TURN ACCESS */
   int	msg_id;
+  int	(*map)[MAP_Y];
 } shared_t;
+
+typedef struct player_s {
+  int x;
+  int y;
+  int regroup;
+  int color;
+  int flag;
+} player_t;
+
+/* GET_SHARED */
+shared_t *get_shared();
+
+/* TEAM */
+int init_team(shared_t *shared, int nb_players);
+
+/* PLAYER */
+int init_player(shared_t *shared, int color, int flag);
+int create_player(shared_t *shared, int color);
 
 #endif
