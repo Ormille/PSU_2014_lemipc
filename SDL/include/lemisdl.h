@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 11:13:21 2015 Julie Terranova
-** Last update Wed Mar  4 15:52:25 2015 Julie Terranova
+** Last update Wed Mar  4 18:18:24 2015 Julie Terranova
 */
 
 #ifndef LEMISDL_H__
@@ -20,8 +20,9 @@ typedef struct s_sdl
 {
   SDL_Surface *background;
   SDL_Surface *screen;
-  SDL_Surface *colors;
-  struct s_sdl *next;
+  SDL_Surface *rasta;
+  SDL_Surface *japon;
+  SDL_Surface *france;
 } t_sdl;
 
 typedef struct s_ttf

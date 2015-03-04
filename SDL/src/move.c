@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 15:26:53 2015 Julie Terranova
-** Last update Wed Mar  4 16:50:28 2015 Julie Terranova
+** Last update Wed Mar  4 18:24:01 2015 Julie Terranova
 */
 
 #include "lemisdl.h"
@@ -32,36 +32,55 @@ int	show_map(int **map, t_sdl *mine)
     return (-1);
   if (SDL_Flip(mine->screen) == -1)
     return (-1);
-
   move_picture(map, mine, sent);
-
   free(sent.str);
   TTF_CloseFont(sent.font);
   TTF_Quit();
   return (0);
 }
 
+void	move_msg(t_ttf sent, t_sdl *mine)
+{
+  static int msg_nb = 0;
+
+  // si je recois un msg j'incremente
+  sprintf(sent.str, "Not implemented yet");
+  if ((sent.msg = TTF_RenderText_Solid(sent.font, sent.str, sent.txtColor))
+      == NULL)
+    return;
+  if (msg_nb == 0)
+    apply_surface(950, 200, sent.msg, mine->screen);
+  if (msg_nb == 1)
+    apply_surface(950, 300, sent.msg, mine->screen);
+  if (msg_nb == 2)
+    apply_surface(950, 400, sent.msg, mine->screen);
+  if (msg_nb == 3)
+    apply_surface(950, 500, sent.msg, mine->screen);
+  if (msg_nb == 4)
+    {
+      msg_nb = 0;
+      // clear tous les msgs
+      apply_surface(950, 600, sent.msg, mine->screen);
+    }
+}
+
 #include <unistd.h>
 void    move_picture(int **map, t_sdl *mine, t_ttf sent)
 {
-  int quit;
-
-  quit = 0;
   apply_surface(0, 0, mine->background, mine->screen);
-  while (quit == 0)
-    {
-      // ici les cases colorées
 
-      sprintf(sent.str, "Not implemented yet");
-      if ((sent.msg = TTF_RenderText_Solid(sent.font, sent.str, sent.txtColor))
-	  == NULL)
-	return;
-      apply_surface(250, 50, sent.msg, mine->screen);
+  // carrés colorés ici en fction de la map:
+  // if id player == 1, utiliser x et y recus
+  apply_surface(20, 20, mine->rasta, mine->screen);
+  // id == 2
+  apply_surface(55, 180, mine->japon, mine->screen);
+  // id == 3
+  apply_surface(500, 300, mine->france, mine->screen);
 
-      sleep(5);
-      // quit = 1 ssi jeu est fini
-      quit = 1;
-    }
+  move_msg(sent, mine);
+
+  sleep(2);
+
   // atej:
   map = map;
   //
