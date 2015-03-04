@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 11:13:21 2015 Julie Terranova
-** Last update Wed Mar  4 18:12:21 2015 moran-_d
+** Last update Wed Mar  4 18:59:28 2015 moran-_d
 */
 
 #ifndef LEMIPC_H__
@@ -24,7 +24,7 @@
 #define DATA_SIZE	sizeof(int)
 #define SHM_SIZE	(MAP_SIZE + DATA_SIZE)
 
-#define MAX_TEAM		15
+#define MAX_TEAM		12
 #define MAX_PLAYER_PLACE_TRY	100
 
 typedef struct shared_s {
