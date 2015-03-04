@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 11:13:21 2015 Julie Terranova
-** Last update Wed Mar  4 18:59:28 2015 moran-_d
+** Last update Wed Mar  4 20:11:25 2015 moran-_d
 */
 
 #ifndef LEMIPC_H__
@@ -26,6 +26,7 @@
 
 #define MAX_TEAM		12
 #define MAX_PLAYER_PLACE_TRY	100
+#define GRAPH_TYPE		1337
 
 typedef struct shared_s {
   key_t	key;
@@ -43,6 +44,13 @@ typedef struct player_s {
   int flag;
 } player_t;
 
+typedef struct msg_s {
+  long type;
+  int val[6];
+} msg_t;
+
+#define MSG_SIZE		(sizeof(msg_t) - sizeof(long))
+
 /* GET_SHARED */
 shared_t *get_shared();
 
@@ -52,5 +60,9 @@ int init_team(shared_t *shared, int nb_players);
 /* PLAYER */
 int init_player(shared_t *shared, int color, int flag);
 int create_player(shared_t *shared, int color);
+
+/* MSG */
+int msg_graph(shared_t *shared,player_t *player, int opcode, int xy[2]);
+
 
 #endif

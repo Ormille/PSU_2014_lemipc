@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 **
 ** Started on  Wed Mar  4 15:58:48 2015 moran-_d
-** Last update Wed Mar  4 18:20:56 2015 moran-_d
+** Last update Wed Mar  4 19:47:51 2015 moran-_d
 */
 
 #include <unistd.h>
@@ -64,8 +64,7 @@ int init_player(shared_t *shared, int color, int flag)
   player.flag = flag;
   if (place_player(shared, &player) != 0)
     return (-1);
-  /* TODO Send msgQ to graph : pop x y color */
-  printf("Player x = %d -- player y = %d\n", player.x, player.y);
+  msg_graph(shared, &player, 1, (int[2]){0, 0}); /* pop */
   exec_ia(shared, &player);
   return (0);
 }
