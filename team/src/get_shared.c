@@ -5,9 +5,10 @@
 ** Login   <moran-_d@epitech.net>
 ** 
 ** Started on  Wed Mar  4 15:27:57 2015 moran-_d
-** Last update Wed Mar  4 18:09:36 2015 moran-_d
+** Last update Wed Mar  4 18:45:11 2015 moran-_d
 */
 
+#include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include "lemipc.h"
@@ -15,10 +16,13 @@
 shared_t *get_shm(shared_t *shared)
 {
   void *addr;
+  int bool;
 
+  bool = 0;
   shared->shm_id = shmget(shared->key, SHM_SIZE, SHM_R | SHM_W);
   if (shared->shm_id == -1)
     {
+      bool = 1;
       shared->shm_id = shmget(shared->key, SHM_SIZE,
                               IPC_CREAT | SHM_R | SHM_W);
       if (shared->shm_id == -1)
@@ -27,11 +31,12 @@ shared_t *get_shm(shared_t *shared)
           free(shared);
           return (NULL);
         }
-      /* TODO MEMSET EVERYTHING !!! */
     }
   if ((addr = shmat(shared->shm_id, NULL, SHM_R | SHM_W)) == NULL)
     return (NULL);
   shared->map = (int (*)[MAP_Y]) addr;
+  if (bool == 1)
+    memset(addr, SHM_SIZE, 0);
   return (shared);
 }
 

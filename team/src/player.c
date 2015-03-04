@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 **
 ** Started on  Wed Mar  4 15:58:48 2015 moran-_d
-** Last update Wed Mar  4 18:13:44 2015 moran-_d
+** Last update Wed Mar  4 18:20:56 2015 moran-_d
 */
 
 #include <unistd.h>
@@ -48,7 +48,7 @@ int exec_ia(shared_t *shared, player_t *player)
   player = player;
   while (! quit)
     {
-      quit = 1;
+      //      quit = 1;
       //      exec_turn(shared, player);
     }
   return (0);
