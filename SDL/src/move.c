@@ -5,10 +5,12 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 15:26:53 2015 Julie Terranova
-** Last update Wed Mar  4 18:52:23 2015 Julie Terranova
+** Last update Wed Mar  4 20:21:13 2015 Julie Terranova
 */
 
+#include <unistd.h>
 #include "lemisdl.h"
+#include "lemipc.h"
 
 void    init_picture(t_ttf *sent)
 {
@@ -19,7 +21,7 @@ void    init_picture(t_ttf *sent)
   sent->txtColor.g = 255;
 }
 
-int	show_map(int (*map)[MAP_Y], t_sdl *mine)
+int	show_map(shared_t *shared, int (*map)[MAP_Y], t_sdl *mine, int bool)
 {
   t_ttf sent;
 
@@ -32,18 +34,40 @@ int	show_map(int (*map)[MAP_Y], t_sdl *mine)
     return (-1);
   if (SDL_Flip(mine->screen) == -1)
     return (-1);
-  move_picture(map, mine, sent);
+  if (bool == 0)
+    move_picture(map, mine, sent);
+  else
+    move_msg(shared, sent, mine);
   free(sent.str);
   TTF_CloseFont(sent.font);
   TTF_Quit();
   return (0);
 }
 
-void	move_msg(t_ttf sent, t_sdl *mine)
+void	pop(msg_t msg, t_sdl *mine)
+{
+  apply_surface(msg.val[2] * 35, msg.val[3] * 35, mine->tab[msg.val[1]], mine->screen);
+}
+
+void	move_msg(shared_t *shared, t_ttf sent, t_sdl *mine)
 {
   static int msg_nb = 0;
+  msg_t msg;
 
-  // si je recois un msg j'incremente
+  while (msgrcv(shared->msg_id, &msg, MSG_SIZE, GRAPH_TYPE, IPC_NOWAIT) != -1)
+    {
+      if (msg.val[0] == 1)
+	pop(msg, mine);
+
+      /* msg.val[0];// type de la fonction (1 pop, 2 destroy,  0 move, 666 quitter) */
+      /* msg.val[1]; // couleur equipe (pop voire move) */
+      /* msg.val[2]; // x ou la couleur doit etre ---> */
+      /* msg.val[3]; // y ou la couleur doit etre */
+      /* msg.val[4]; // x' --> destroy */
+      /* msg.val[5]; // y'---> destroy */
+
+      msg_nb += 1;
+    }
   sprintf(sent.str, "Not implemented yet");
   if ((sent.msg = TTF_RenderText_Solid(sent.font, sent.str, sent.txtColor))
       == NULL)
@@ -64,24 +88,27 @@ void	move_msg(t_ttf sent, t_sdl *mine)
     }
 }
 
-#include <unistd.h>
 void    move_picture(int (*map)[MAP_Y], t_sdl *mine, t_ttf sent)
 {
-  apply_surface(0, 0, mine->background, mine->screen);
+  int x;
+  int y;
 
-  // carrés colorés ici en fction de la map:
-  // if id player == 1, utiliser x et y recus
-  apply_surface(20, 20, mine->rasta, mine->screen);
-  // id == 2
-  apply_surface(55, 180, mine->japon, mine->screen);
-  // id == 3
-  apply_surface(500, 300, mine->france, mine->screen);
-
-  move_msg(sent, mine);
-
-  sleep(2);
-
-  // atej:
-  map = map;
+  // atej
+  sent = sent;
   //
+
+  x = 0;
+  y = 0;
+  apply_surface(0, 0, mine->background, mine->screen);
+  while (y < MAP_Y)
+    {
+      x = 0;
+      while (x < MAP_X)
+	{
+	  if (map[x][y] != 0)
+	    apply_surface(x * 35, y * 35, mine->tab[map[x][y]], mine->screen);
+	  x++;
+	}
+      y++;
+    }
 }
