@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 11:13:21 2015 Julie Terranova
-** Last update Wed Mar  4 11:53:27 2015 Julie Terranova
+** Last update Wed Mar  4 15:52:25 2015 Julie Terranova
 */
 
 #ifndef LEMISDL_H__
@@ -31,5 +31,10 @@ typedef struct s_ttf
   SDL_Color     txtColor;
   char          *str;
 } t_ttf;
+
+int     draw(int **map);
+int     show_map(int **map, t_sdl *mine);
+void    move_picture(int **map, t_sdl *mine, t_ttf sent);
+void    apply_surface(int x, int y, SDL_Surface* src, SDL_Surface* dest);
 
 #endif
