@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 11:13:21 2015 Julie Terranova
-** Last update Wed Mar  4 18:18:24 2015 Julie Terranova
+** Last update Wed Mar  4 18:51:39 2015 Julie Terranova
 */
 
 #ifndef LEMISDL_H__
@@ -15,6 +15,7 @@
 #include "SDL/SDL_ttf.h"
 #include "SDL/SDL_image.h"
 #include "X11/Xlib.h"
+#include "lemipc.h"
 
 typedef struct s_sdl
 {
@@ -33,9 +34,9 @@ typedef struct s_ttf
   char          *str;
 } t_ttf;
 
-int     draw(int **map);
-int     show_map(int **map, t_sdl *mine);
-void    move_picture(int **map, t_sdl *mine, t_ttf sent);
+int     draw(int (*map)[MAP_Y]);
+int     show_map(int (*map)[MAP_Y], t_sdl *mine);
+void    move_picture(int (*map)[MAP_Y], t_sdl *mine, t_ttf sent);
 void    apply_surface(int x, int y, SDL_Surface* src, SDL_Surface* dest);
 
 #endif

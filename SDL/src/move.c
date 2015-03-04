@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 15:26:53 2015 Julie Terranova
-** Last update Wed Mar  4 18:24:01 2015 Julie Terranova
+** Last update Wed Mar  4 18:52:23 2015 Julie Terranova
 */
 
 #include "lemisdl.h"
@@ -19,7 +19,7 @@ void    init_picture(t_ttf *sent)
   sent->txtColor.g = 255;
 }
 
-int	show_map(int **map, t_sdl *mine)
+int	show_map(int (*map)[MAP_Y], t_sdl *mine)
 {
   t_ttf sent;
 
@@ -65,7 +65,7 @@ void	move_msg(t_ttf sent, t_sdl *mine)
 }
 
 #include <unistd.h>
-void    move_picture(int **map, t_sdl *mine, t_ttf sent)
+void    move_picture(int (*map)[MAP_Y], t_sdl *mine, t_ttf sent)
 {
   apply_surface(0, 0, mine->background, mine->screen);
 

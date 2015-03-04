@@ -5,24 +5,21 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 11:12:41 2015 Julie Terranova
-** Last update Wed Mar  4 16:27:57 2015 Julie Terranova
+** Last update Wed Mar  4 18:59:49 2015 Julie Terranova
 */
 
 #include "lemisdl.h"
+#include "lemipc.h"
 
 int	main()
 {
-  int	**map;
-  // atej:
-  map = malloc(sizeof(*map) * 100);
-  int i = 0;
-  while (i++ < 10)
-    *map = malloc(sizeof(**map) * 100);
+  shared_t *shared;
 
-
-  //
-  draw(map);
-  // struct a free a la fin
-
+  if ((shared = get_shared()) == NULL)
+    {
+      printf("./lemipc is required before you start the graphic part\n");
+      return (-1);
+    }
+  draw(shared->map);
   return (0);
 }

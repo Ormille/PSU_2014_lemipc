@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 15:15:36 2015 Julie Terranova
-** Last update Wed Mar  4 17:58:01 2015 Julie Terranova
+** Last update Wed Mar  4 18:51:23 2015 Julie Terranova
 */
 
 #include "lemisdl.h"
@@ -52,7 +52,7 @@ int	init_colors(t_sdl *mine)
   return (0);
 }
 
-int     draw(int **map)
+int     draw(int (*map)[MAP_Y])
 {
   t_sdl mine;
 
