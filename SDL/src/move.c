@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 15:26:53 2015 Julie Terranova
-** Last update Thu Mar  5 14:37:48 2015 Julie Terranova
+** Last update Thu Mar  5 15:09:16 2015 Julie Terranova
 */
 
 #include <unistd.h>
@@ -90,6 +90,7 @@ void	move_msg(shared_t *shared, t_ttf sent, t_sdl *mine)
 	  sprintf(sent.str, "Game is over");
 	  return;
 	}
+
       /* msg.val[0];// type de la fonction (1 pop, 2 destroy,  0 move, 666 quitter) */
       /* msg.val[1]; // couleur equipe (pop voire move) */
       /* msg.val[2]; // x ou la couleur doit etre ---> */
