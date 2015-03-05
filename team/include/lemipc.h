@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 11:13:21 2015 Julie Terranova
-** Last update Wed Mar  4 20:32:30 2015 moran-_d
+** Last update Thu Mar  5 10:54:50 2015 moran-_d
 */
 
 #ifndef LEMIPC_H__
@@ -18,14 +18,15 @@
 #define KEYWORD	"banane-citron"
 
 #define CELL_SIZE	sizeof(int)
-#define MAP_X		25
-#define MAP_Y		25
+#define MAP_X		52
+#define MAP_Y		52
 #define MAP_SIZE	(CELL_SIZE * CELL_SIZE * MAP_X * MAP_Y)
 #define DATA_SIZE	sizeof(int)
 #define SHM_SIZE	(MAP_SIZE + DATA_SIZE)
 
 #define MAX_TEAM		12
-#define MAX_PLAYER_PLACE_TRY	100
+#define MAX_PLAYERS		12
+#define MAX_PLAYER_PLACE_TRY	500
 #define GRAPH_TYPE		1337
 
 typedef struct shared_s {

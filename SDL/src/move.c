@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 15:26:53 2015 Julie Terranova
-** Last update Wed Mar  4 20:21:13 2015 Julie Terranova
+** Last update Thu Mar  5 10:45:55 2015 moran-_d
 */
 
 #include <unistd.h>
@@ -46,7 +46,7 @@ int	show_map(shared_t *shared, int (*map)[MAP_Y], t_sdl *mine, int bool)
 
 void	pop(msg_t msg, t_sdl *mine)
 {
-  apply_surface(msg.val[2] * 35, msg.val[3] * 35, mine->tab[msg.val[1]], mine->screen);
+  apply_surface(msg.val[2] * 15, msg.val[3] * 15, mine->tab[msg.val[1]], mine->screen);
 }
 
 void	move_msg(shared_t *shared, t_ttf sent, t_sdl *mine)
@@ -106,7 +106,7 @@ void    move_picture(int (*map)[MAP_Y], t_sdl *mine, t_ttf sent)
       while (x < MAP_X)
 	{
 	  if (map[x][y] != 0)
-	    apply_surface(x * 35, y * 35, mine->tab[map[x][y]], mine->screen);
+	    apply_surface(x * 15, y * 15, mine->tab[map[x][y]], mine->screen);
 	  x++;
 	}
       y++;

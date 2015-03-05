@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 11:12:41 2015 Julie Terranova
-** Last update Wed Mar  4 17:56:00 2015 moran-_d
+** Last update Thu Mar  5 10:36:14 2015 moran-_d
 */
 
 #include <stdlib.h>
@@ -18,15 +18,15 @@ int	main(int argc, char **argv)
   int nb_players;
 
   if (argc < 2)
-    nb_players = 15;
+    nb_players = MAX_PLAYERS;
   else if (argc > 2)
     {
       printf("Usage : %s [nb_players]\n", argv[0]);
       return (-1);
     }
   else
-    if ((nb_players = atoi(argv[1])) < 0 || nb_players > 15)
-      nb_players = 15;
+    if ((nb_players = atoi(argv[1])) < 0 || nb_players > MAX_PLAYERS)
+      nb_players = MAX_PLAYERS;
   if ((shared = get_shared()) == NULL)
     return (-1);
   init_team(shared, nb_players);
