@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 15:15:36 2015 Julie Terranova
-** Last update Wed Mar  4 20:27:15 2015 Julie Terranova
+** Last update Thu Mar  5 13:51:15 2015 Julie Terranova
 */
 
 #include "lemisdl.h"
@@ -33,6 +33,20 @@ void    apply_surface(int x, int y, SDL_Surface* src, SDL_Surface* dest)
   offset.x = x;
   offset.y = y;
   SDL_BlitSurface(src, NULL, dest, &offset);
+}
+
+void    clean_surface(int xy[6], SDL_Surface* src, SDL_Surface* dest)
+{
+  SDL_Rect      srcrec;
+  SDL_Rect      destrec;
+
+  srcrec.x = xy[0];
+  srcrec.y = xy[1];
+  srcrec.w = xy[2];
+  srcrec.h = xy[3];
+  destrec.x = xy[4];
+  destrec.y = xy[5];
+  SDL_BlitSurface(src, &srcrec, dest, &destrec);
 }
 
 void    init(t_sdl *mine)

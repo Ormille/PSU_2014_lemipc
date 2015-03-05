@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 15:26:53 2015 Julie Terranova
-** Last update Thu Mar  5 13:14:29 2015 moran-_d
+** Last update Thu Mar  5 14:00:29 2015 Julie Terranova
 */
 
 #include <unistd.h>
@@ -30,12 +30,12 @@ int	show_map(shared_t *shared, int (*map)[MAP_Y], t_sdl *mine, int bool)
     return (-1);
   if (TTF_Init() == -1)
     return (-1);
-  if ((sent.font = TTF_OpenFont("SDL/pictures/police.ttf", 28)) == NULL)
+  if ((sent.font = TTF_OpenFont("SDL/pictures/police.ttf", 20)) == NULL)
     return (-1);
   if (SDL_Flip(mine->screen) == -1)
     return (-1);
   if (bool == 0)
-    move_picture(map, mine, sent);
+    move_picture(map, mine);
   else
     move_msg(shared, sent, mine);
   free(sent.str);
@@ -66,36 +66,33 @@ void	move_msg(shared_t *shared, t_ttf sent, t_sdl *mine)
       /* msg.val[4]; // x' --> destroy */
       /* msg.val[5]; // y'---> destroy */
 
+      sprintf(sent.str, "A player from team %d came in game", msg.val[1]);
+      if ((sent.msg = TTF_RenderText_Solid(sent.font, sent.str, sent.txtColor))
+	  == NULL)
+	return;
+      if (msg_nb == 0)
+	apply_surface(925, 200, sent.msg, mine->screen);
+      if (msg_nb == 1)
+	apply_surface(925, 300, sent.msg, mine->screen);
+      if (msg_nb == 2)
+	apply_surface(925, 400, sent.msg, mine->screen);
+      if (msg_nb == 3)
+	apply_surface(925, 500, sent.msg, mine->screen);
+      if (msg_nb >= 4)
+	{
+	  apply_surface(925, 600, sent.msg, mine->screen);
+	  msg_nb = -1;
+	  clean_surface((int[6]){925, 200, 500, 600, 925, 200},
+			mine->background, mine->screen);
+	}
       msg_nb += 1;
-    }
-  sprintf(sent.str, "Not implemented yet");
-  if ((sent.msg = TTF_RenderText_Solid(sent.font, sent.str, sent.txtColor))
-      == NULL)
-    return;
-  if (msg_nb == 0)
-    apply_surface(950, 200, sent.msg, mine->screen);
-  if (msg_nb == 1)
-    apply_surface(950, 300, sent.msg, mine->screen);
-  if (msg_nb == 2)
-    apply_surface(950, 400, sent.msg, mine->screen);
-  if (msg_nb == 3)
-    apply_surface(950, 500, sent.msg, mine->screen);
-  if (msg_nb == 4)
-    {
-      msg_nb = 0;
-      // clear tous les msgs
-      apply_surface(950, 600, sent.msg, mine->screen);
     }
 }
 
-void    move_picture(int (*map)[MAP_Y], t_sdl *mine, t_ttf sent)
+void    move_picture(int (*map)[MAP_Y], t_sdl *mine)
 {
   int x;
   int y;
-
-  // atej
-  sent = sent;
-  //
 
   x = 0;
   y = 0;
