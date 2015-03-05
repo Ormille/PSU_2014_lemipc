@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 15:26:53 2015 Julie Terranova
-** Last update Thu Mar  5 14:00:29 2015 Julie Terranova
+** Last update Thu Mar  5 14:37:48 2015 Julie Terranova
 */
 
 #include <unistd.h>
@@ -46,7 +46,22 @@ int	show_map(shared_t *shared, int (*map)[MAP_Y], t_sdl *mine, int bool)
 
 void	pop(msg_t msg, t_sdl *mine)
 {
-  apply_surface(msg.val[2] * 15, msg.val[3] * 15, mine->tab[msg.val[1]], mine->screen);
+  apply_surface(msg.val[2] * 15, msg.val[3] * 15, mine->tab[msg.val[1]],
+		mine->screen);
+}
+
+void	destroy(msg_t msg, t_sdl *mine)
+{
+   clean_surface((int[6]){msg.val[4], msg.val[5], 13, 13, msg.val[4], msg.val[5]},
+			mine->background, mine->screen);
+}
+
+void	move(msg_t msg, t_sdl *mine)
+{
+  clean_surface((int[6]){msg.val[4], msg.val[5], 13, 13, msg.val[4], msg.val[5]},
+		mine->background, mine->screen);
+  apply_surface(msg.val[2] * 15, msg.val[3] * 15, mine->tab[msg.val[1]],
+		mine->screen);
 }
 
 void	move_msg(shared_t *shared, t_ttf sent, t_sdl *mine)
@@ -57,8 +72,24 @@ void	move_msg(shared_t *shared, t_ttf sent, t_sdl *mine)
   while (msgrcv(shared->msg_id, &msg, MSG_SIZE, GRAPH_TYPE, IPC_NOWAIT) != -1)
     {
       if (msg.val[0] == 1)
-	pop(msg, mine);
-
+	{
+	  pop(msg, mine);
+	  sprintf(sent.str, "A player from team %d came in game", msg.val[1]);
+	}
+      else if (msg.val[0] == 2)
+	{
+	  destroy(msg, mine);
+	  sprintf(sent.str, "A player from team %d just lost", msg.val[1]);
+	}
+      else if (msg.val[0] == 0)
+	{
+	  move(msg, mine);
+	}
+      else if (msg.val[0] == 666)
+	{
+	  sprintf(sent.str, "Game is over");
+	  return;
+	}
       /* msg.val[0];// type de la fonction (1 pop, 2 destroy,  0 move, 666 quitter) */
       /* msg.val[1]; // couleur equipe (pop voire move) */
       /* msg.val[2]; // x ou la couleur doit etre ---> */
@@ -66,7 +97,6 @@ void	move_msg(shared_t *shared, t_ttf sent, t_sdl *mine)
       /* msg.val[4]; // x' --> destroy */
       /* msg.val[5]; // y'---> destroy */
 
-      sprintf(sent.str, "A player from team %d came in game", msg.val[1]);
       if ((sent.msg = TTF_RenderText_Solid(sent.font, sent.str, sent.txtColor))
 	  == NULL)
 	return;
