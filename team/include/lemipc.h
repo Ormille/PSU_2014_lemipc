@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 11:13:21 2015 Julie Terranova
-** Last update Thu Mar  5 10:54:50 2015 moran-_d
+** Last update Thu Mar  5 13:14:05 2015 moran-_d
 */
 
 #ifndef LEMIPC_H__
@@ -18,6 +18,7 @@
 #define KEYWORD	"banane-citron"
 
 #define CELL_SIZE	sizeof(int)
+<<<<<<< HEAD
 #define MAP_X		52
 #define MAP_Y		52
 #define MAP_SIZE	(CELL_SIZE * CELL_SIZE * MAP_X * MAP_Y)
