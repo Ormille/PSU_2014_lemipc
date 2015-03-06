@@ -5,35 +5,73 @@
 ** Login   <moran-_d@epitech.net>
 ** 
 ** Started on  Wed Mar  4 20:14:08 2015 moran-_d
-** Last update Fri Mar  6 15:51:47 2015 moran-_d
+** Last update Fri Mar  6 22:09:13 2015 moran-_d
 */
 
+#include <stdlib.h>
+#include <string.h>
 #include "lemipc.h"
 
-int check_enemy_in_radius(shared_t *shared, int pos[2], int radius, int color)
+/* color > 0 : check for != color. color < 0 : check for == color * -1 */
+int check_entity_in_radius(shared_t *shared, int pos[2], int radius, int color)
 {
-  int enemies;
+  int entities;
   int ymax;
   int xmax;
   int x;
   int y;
-
-  enemies = 0;
-  if ((y = pos[1] - radius) < 0)
-    y = 0;
+  
+  entities = 0;
+  if ((y = pos[1] - radius - 1) < 0)
+    y = -1;
   if ((ymax = pos[1] + radius) > MAP_Y)
     ymax = MAP_Y;
   if ((xmax = (x = pos[0]) + radius) > MAP_X)
     xmax = MAP_X;
-  while (y <= ymax)
+  while (++y <= ymax)
     {
       if ((x = pos[0] - radius - 1) < 0)
 	x = -1;
       while (++x <= xmax)
-	if (shared->map[x][y] > 0 &&
-	    shared->map[x][y] != color)
-	  ++enemies;
-      ++y;
+	if ((shared->map[x][y] > 0
+	     && (color > 0 && shared->map[x][y] != color))
+	    || (color < 0 && shared->map[x][y] == color * -1)
+	    || (color == 0))
+	  ++entities;
     }
-  return (enemies);
+  return (entities);
+}
+
+int **check_teams_in_radius(shared_t *shared, int pos[2],
+			    int radius, int *size)
+{
+  int (*enemies)[3];
+  int xy[2];
+  int ymax;
+  int xmax;
+
+  *size = -1;
+  xmax = sizeof(int) * 3 * check_entity_in_radius(shared, pos, radius, 0);
+  if ((enemies = malloc(xmax)) == NULL)
+    return (NULL);
+  memset(enemies, 0, xmax);
+  if ((xy[1] = pos[1] - radius - 1) < 0)
+    xy[1] = -1;
+  if ((ymax = pos[1] + radius) > MAP_Y)
+    ymax = MAP_Y;
+  if ((xmax = (xy[0] = pos[0]) + radius) > MAP_X)
+    xmax = MAP_X;
+  while (++xy[1] <= ymax)
+    {
+      if ((xy[0] = pos[0] - radius - 1) < 0)
+	xy[0] = -1;
+      while (++xy[0] <= xmax)
+	if (shared->map[xy[0]][xy[1]] > 0)
+	  {
+	    enemies[++(*size)][0] = xy[0];
+	    enemies[*size][1] = xy[1];
+	    enemies[*size][2] = shared->map[xy[0]][xy[1]];
+	  }
+    }
+  return ((int**)enemies);
 }

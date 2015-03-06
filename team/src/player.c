@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 **
 ** Started on  Wed Mar  4 15:58:48 2015 moran-_d
-** Last update Fri Mar  6 16:14:24 2015 moran-_d
+** Last update Fri Mar  6 21:27:59 2015 moran-_d
 */
 
 #include <unistd.h>
@@ -30,8 +30,8 @@ int place_player(shared_t *shared, player_t *player)
       player->x = rand() % MAP_X;
       player->y = rand() % MAP_Y;
       if (shared->map[player->x][player->y] == 0
-	  && check_enemy_in_radius(shared, (int[2]){player->x, player->y},
-				   1, player->color) == 0)
+	  && check_entity_in_radius(shared, (int[2]){player->x, player->y},
+				    1, player->color) == 0)
 	{
 	  shared->map[player->x][player->y] = player->color;
 	  semop(shared->sem_id, &sops, 1);

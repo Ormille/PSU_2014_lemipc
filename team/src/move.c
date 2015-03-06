@@ -5,9 +5,11 @@
 ** Login   <moran-_d@epitech.net>
 ** 
 ** Started on  Thu Mar  5 14:07:35 2015 moran-_d
-** Last update Fri Mar  6 14:47:15 2015 moran-_d
+** Last update Fri Mar  6 23:08:18 2015 moran-_d
 */
 
+#include <stdlib.h>
+#include <unistd.h>
 #include "lemipc.h"
 
 int move_to(shared_t *shared, player_t *player, int pos[2])
@@ -32,6 +34,7 @@ int move_to(shared_t *shared, player_t *player, int pos[2])
   return (0);
 }
 
+// TODO refaire
 int move_toward_objective(shared_t *shared, player_t *player)
 {
   int try[2];
@@ -44,10 +47,35 @@ int move_toward_objective(shared_t *shared, player_t *player)
     try[0] *= -1;
   else if (player->objective[1] < player->y)
     try[1] *= -1;
-  dangerous = check_enemy_in_radius(shared, (int[2]){try[0], try[1]},
-				    1, player->color);
+  dangerous = check_entity_in_radius(shared, (int[2]){try[0], try[1]},
+				     1, player->color);
   if ((dangerous < 2 || player->objective[2] == 1))
     move_to(shared, player, (int[2]){try[0], try[1]});
   // end while if move_to is ok
+  return (0);
+}
+
+int opportunist_kill(shared_t *shared, player_t *player)
+{
+  int **nearby;
+  int size;
+
+  size = 0;
+  nearby = check_teams_in_radius(shared, (int[2]){player->x, player->y}, 2,
+				&size);
+  while (--size >= 0)
+    {
+      if (nearby[size][2] != player->color &&
+	  distance(nearby[size][0], nearby[size][1],
+		   player->x, player->y) == 2
+	  && check_entity_in_radius(shared, (int[2])(void*)nearby[size],
+				    1, player->color))
+	if (move_safely(shared, player, (int[2])nearby[size]) == 1)
+	  {
+	    free(nearby);
+	    return (1);
+	  }
+    }
+  free(nearby);
   return (0);
 }

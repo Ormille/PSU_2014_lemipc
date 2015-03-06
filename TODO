@@ -9,3 +9,7 @@ make cleanpcrm
       /* msg.val[3]; // y ou la couleur doit etre */
       /* msg.val[4]; // x' --> destroy */
       /* msg.val[5]; // y'---> destroy */
+
+TODO: check validity pair passée en argument dans ia_flag.c : pas de ref sur pair plutot ?
+
+TODO: grep -R "for" a la fin
