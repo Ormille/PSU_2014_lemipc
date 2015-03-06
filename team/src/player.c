@@ -5,13 +5,14 @@
 ** Login   <moran-_d@epitech.net>
 **
 ** Started on  Wed Mar  4 15:58:48 2015 moran-_d
-** Last update Thu Mar  5 10:28:06 2015 moran-_d
+** Last update Fri Mar  6 15:05:43 2015 moran-_d
 */
 
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include "lemipc.h"
+#include "ia.h"
 
 int place_player(shared_t *shared, player_t *player)
 {
@@ -22,6 +23,7 @@ int place_player(shared_t *shared, player_t *player)
   sops.sem_flg = 0;
   sops.sem_op = -1;
   semop(shared->sem_id, &sops, 1);
+  printf("ENTRY SEM\n");
   sops.sem_op = 1;
   i = -1;
   while (++i < MAX_PLAYER_PLACE_TRY)
@@ -29,13 +31,16 @@ int place_player(shared_t *shared, player_t *player)
       player->x = rand() % MAP_X;
       player->y = rand() % MAP_Y;
       if (shared->map[player->x][player->y] == 0
-	  && check_enemy_in_radius(shared, player, 1) == 0)
+	  && check_enemy_in_radius(shared, (int[2]){player->x, player->y},
+				   1, player->color) == 0)
 	{
 	  shared->map[player->x][player->y] = player->color;
+	  printf("EXIT SEM\n");
 	  semop(shared->sem_id, &sops, 1);
 	  return (0);
 	}
     }
+  printf("EXIT2 SEM\n");
   semop(shared->sem_id, &sops, 1);
   return (-1);
 }
@@ -49,8 +54,8 @@ int exec_ia(shared_t *shared, player_t *player)
   player = player;
   while (! quit)
     {
-      //      quit = 1;
-      //      exec_turn(shared, player);
+      quit = 1;
+      //      quit = exec_turn(shared, player);
     }
   return (0);
 }
@@ -65,7 +70,7 @@ int init_player(shared_t *shared, int color, int flag)
   if (place_player(shared, &player) != 0)
     return (-1);
   printf("player %d --- x = %d --- y = %d\n", color, player.x, player.y);
-  msg_graph(shared, &player, 1, (int[2]){0, 0}); /* pop */
+  msg_graph(shared, &player, 1, (int[2]){0, 0});
   exec_ia(shared, &player);
   return (0);
 }

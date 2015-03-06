@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 11:13:21 2015 Julie Terranova
-** Last update Thu Mar  5 13:20:05 2015 moran-_d
+** Last update Thu Mar  5 14:58:16 2015 moran-_d
 */
 
 #ifndef LEMIPC_H__
@@ -43,6 +43,7 @@ typedef struct player_s {
   int regroup;
   int color;
   int flag;
+  int objective[3];
 } player_t;
 
 typedef struct msg_s {
@@ -66,6 +67,6 @@ int create_player(shared_t *shared, int color);
 int msg_graph(shared_t *shared,player_t *player, int opcode, int xy[2]);
 
 /* ACTION_SCOUT */
-int check_enemy_in_radius(shared_t *shared, player_t *player, int radius);
+int check_enemy_in_radius(shared_t *shared, int pos[2], int radius, int color);
 
 #endif
