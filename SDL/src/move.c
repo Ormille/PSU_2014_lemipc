@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 15:26:53 2015 Julie Terranova
-** Last update Thu Mar  5 15:09:16 2015 Julie Terranova
+** Last update Fri Mar  6 15:46:13 2015 Julie Terranova
 */
 
 #include <unistd.h>
@@ -37,7 +37,8 @@ int	show_map(shared_t *shared, int (*map)[MAP_Y], t_sdl *mine, int bool)
   if (bool == 0)
     move_picture(map, mine);
   else
-    move_msg(shared, sent, mine);
+    if ((move_msg(shared, sent, mine)) == 42)
+      return (42);
   free(sent.str);
   TTF_CloseFont(sent.font);
   TTF_Quit();
@@ -52,19 +53,19 @@ void	pop(msg_t msg, t_sdl *mine)
 
 void	destroy(msg_t msg, t_sdl *mine)
 {
-   clean_surface((int[6]){msg.val[4], msg.val[5], 13, 13, msg.val[4], msg.val[5]},
-			mine->background, mine->screen);
+   clean_surface((int[6]){msg.val[4], msg.val[5], 13, 13, msg.val[4],
+	 msg.val[5]}, mine->background, mine->screen);
 }
 
 void	move(msg_t msg, t_sdl *mine)
 {
-  clean_surface((int[6]){msg.val[4], msg.val[5], 13, 13, msg.val[4], msg.val[5]},
-		mine->background, mine->screen);
+  clean_surface((int[6]){msg.val[4], msg.val[5], 13, 13, msg.val[4],
+	msg.val[5]}, mine->background, mine->screen);
   apply_surface(msg.val[2] * 15, msg.val[3] * 15, mine->tab[msg.val[1]],
 		mine->screen);
 }
 
-void	move_msg(shared_t *shared, t_ttf sent, t_sdl *mine)
+int	move_msg(shared_t *shared, t_ttf sent, t_sdl *mine)
 {
   static int msg_nb = 0;
   msg_t msg;
@@ -82,42 +83,38 @@ void	move_msg(shared_t *shared, t_ttf sent, t_sdl *mine)
 	  sprintf(sent.str, "A player from team %d just lost", msg.val[1]);
 	}
       else if (msg.val[0] == 0)
-	{
-	  move(msg, mine);
-	}
+	move(msg, mine);
       else if (msg.val[0] == 666)
 	{
 	  sprintf(sent.str, "Game is over");
-	  return;
+	  return (42);
 	}
-
-      /* msg.val[0];// type de la fonction (1 pop, 2 destroy,  0 move, 666 quitter) */
-      /* msg.val[1]; // couleur equipe (pop voire move) */
-      /* msg.val[2]; // x ou la couleur doit etre ---> */
-      /* msg.val[3]; // y ou la couleur doit etre */
-      /* msg.val[4]; // x' --> destroy */
-      /* msg.val[5]; // y'---> destroy */
-
-      if ((sent.msg = TTF_RenderText_Solid(sent.font, sent.str, sent.txtColor))
-	  == NULL)
-	return;
-      if (msg_nb == 0)
-	apply_surface(925, 200, sent.msg, mine->screen);
-      if (msg_nb == 1)
-	apply_surface(925, 300, sent.msg, mine->screen);
-      if (msg_nb == 2)
-	apply_surface(925, 400, sent.msg, mine->screen);
-      if (msg_nb == 3)
-	apply_surface(925, 500, sent.msg, mine->screen);
-      if (msg_nb >= 4)
-	{
-	  apply_surface(925, 600, sent.msg, mine->screen);
-	  msg_nb = -1;
-	  clean_surface((int[6]){925, 200, 500, 600, 925, 200},
-			mine->background, mine->screen);
-	}
-      msg_nb += 1;
+      send_to_print(sent, mine, &msg_nb);
     }
+  return (0);
+}
+
+void	send_to_print(t_ttf sent, t_sdl *mine, int *msg_nb)
+{
+  if ((sent.msg = TTF_RenderText_Solid(sent.font, sent.str, sent.txtColor))
+      == NULL)
+    return;
+  if (*msg_nb == 0)
+    apply_surface(925, 200, sent.msg, mine->screen);
+  if (*msg_nb == 1)
+    apply_surface(925, 300, sent.msg, mine->screen);
+  if (*msg_nb == 2)
+    apply_surface(925, 400, sent.msg, mine->screen);
+  if (*msg_nb == 3)
+    apply_surface(925, 500, sent.msg, mine->screen);
+  if (*msg_nb >= 4)
+    {
+      apply_surface(925, 600, sent.msg, mine->screen);
+      *msg_nb = -1;
+      clean_surface((int[6]){925, 200, 500, 600, 925, 200},
+		    mine->background, mine->screen);
+    }
+  *msg_nb += 1;
 }
 
 void    move_picture(int (*map)[MAP_Y], t_sdl *mine)

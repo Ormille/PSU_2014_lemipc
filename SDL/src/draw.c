@@ -5,35 +5,10 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 15:15:36 2015 Julie Terranova
-** Last update Thu Mar  5 13:51:15 2015 Julie Terranova
+** Last update Fri Mar  6 15:26:48 2015 Julie Terranova
 */
 
 #include "lemisdl.h"
-
-SDL_Surface     *optimize_img(char *file)
-{
-  SDL_Surface   *first_one;
-  SDL_Surface   *opti_one;
-
-  first_one = NULL;
-  opti_one = NULL;
-  first_one = SDL_LoadBMP(file);
-  if (first_one != NULL)
-    {
-      opti_one = SDL_DisplayFormat(first_one);
-      SDL_FreeSurface(first_one);
-    }
-  return (opti_one);
-}
-
-void    apply_surface(int x, int y, SDL_Surface* src, SDL_Surface* dest)
-{
-  SDL_Rect      offset;
-
-  offset.x = x;
-  offset.y = y;
-  SDL_BlitSurface(src, NULL, dest, &offset);
-}
 
 void    clean_surface(int xy[6], SDL_Surface* src, SDL_Surface* dest)
 {
@@ -98,14 +73,10 @@ int     draw(shared_t *shared, int (*map)[MAP_Y])
     return (-1);
   if (SDL_Flip(mine.screen) == -1)
     return (-1);
-
   bool = 0;
-  while (42) // tant que pas fini
-    {
-      show_map(shared, map, &mine, bool);
+  while (bool == 0)
+    if ((show_map(shared, map, &mine, bool)) == 42)
       bool = 1;
-    }
-
   SDL_FreeSurface(mine.background);
   SDL_Quit();
   return (0);
