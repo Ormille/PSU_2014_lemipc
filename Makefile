@@ -5,7 +5,7 @@
 ## Login   <terran_j@epitech.net>
 ##
 ## Started on  Wed Mar  4 11:09:24 2015 Julie Terranova
-## Last update Fri Mar  6 15:27:29 2015 Julie Terranova
+## Last update Fri Mar  6 15:53:22 2015 Julie Terranova
 ##
 
 NAME1=	lemipc
@@ -31,6 +31,7 @@ SRC2=    $(DIR2)main_sdl.c \
 	 $(DIR2)draw.c \
 	 $(DIR2)sdl_base.c \
 	 $(DIR2)move.c \
+	 $(DIR2)show_map.c \
 	 $(DIR2)get_shared.c \
 
 OBJ1=   $(SRC1:.c=.o)
