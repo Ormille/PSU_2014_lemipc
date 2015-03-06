@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 11:13:21 2015 Julie Terranova
-** Last update Fri Mar  6 15:45:57 2015 Julie Terranova
+** Last update Fri Mar  6 15:52:38 2015 Julie Terranova
 */
 
 #ifndef LEMISDL_H__
@@ -41,5 +41,9 @@ void    clean_surface(int xy[6], SDL_Surface* src, SDL_Surface* dest);
 SDL_Surface     *optimize_img(char *file);
 void    apply_surface(int x, int y, SDL_Surface* src, SDL_Surface* dest);
 void    send_to_print(t_ttf sent, t_sdl *mine, int *msg_nb);
+void    init_picture(t_ttf *sent);
+int     show_map(shared_t *shared, int (*map)[MAP_Y], t_sdl *mine, int bool);
+void    pop(msg_t msg, t_sdl *mine);
+void    destroy(msg_t msg, t_sdl *mine);
 
 #endif
