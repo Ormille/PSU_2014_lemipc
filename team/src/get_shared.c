@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 ** 
 ** Started on  Wed Mar  4 15:27:57 2015 moran-_d
-** Last update Fri Mar  6 15:08:05 2015 moran-_d
+** Last update Fri Mar  6 15:45:25 2015 moran-_d
 */
 
 #include <string.h>
@@ -42,12 +42,10 @@ shared_t *get_shm(shared_t *shared)
 
 shared_t *get_sem(shared_t *shared)
 {
-  struct sembuf sbuf;
-
-  shared->sem_id = semget(shared->key, 0, SHM_R | SHM_W);
-  if (shared->shm_id == -1)
+  shared->sem_id = semget(shared->key, 2, SHM_R | SHM_W);
+  if (shared->sem_id == -1)
     {
-      shared->sem_id = semget(shared->key, 1,
+      shared->sem_id = semget(shared->key, 2,
 			      IPC_CREAT | SHM_R | SHM_W);
       if (shared->sem_id == -1)
         {
@@ -55,10 +53,8 @@ shared_t *get_sem(shared_t *shared)
           free(shared);
           return (NULL);
         }
-      sbuf.sem_num = 0;
-      sbuf.sem_op = 1;
-      sbuf.sem_flg = 0;
-      semop(shared->sem_id, &sbuf, 1);
+      semctl(shared->sem_id, 0, SETVAL, 1);
+      semctl(shared->sem_id, 1, SETVAL, 1);
     }
   return (shared);  
 }

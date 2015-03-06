@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 **
 ** Started on  Wed Mar  4 15:58:48 2015 moran-_d
-** Last update Fri Mar  6 15:05:43 2015 moran-_d
+** Last update Fri Mar  6 15:47:02 2015 moran-_d
 */
 
 #include <unistd.h>
@@ -23,7 +23,6 @@ int place_player(shared_t *shared, player_t *player)
   sops.sem_flg = 0;
   sops.sem_op = -1;
   semop(shared->sem_id, &sops, 1);
-  printf("ENTRY SEM\n");
   sops.sem_op = 1;
   i = -1;
   while (++i < MAX_PLAYER_PLACE_TRY)
@@ -35,12 +34,10 @@ int place_player(shared_t *shared, player_t *player)
 				   1, player->color) == 0)
 	{
 	  shared->map[player->x][player->y] = player->color;
-	  printf("EXIT SEM\n");
 	  semop(shared->sem_id, &sops, 1);
 	  return (0);
 	}
     }
-  printf("EXIT2 SEM\n");
   semop(shared->sem_id, &sops, 1);
   return (-1);
 }
