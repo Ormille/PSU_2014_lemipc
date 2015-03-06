@@ -2,3 +2,10 @@
 Au cas où.
 
 make cleanpcrm
+
+       /* msg.val[0];// type de la fonction (1 pop, 2 destroy,  0 move, 666 quitter) */
+      /* msg.val[1]; // couleur equipe (pop voire move) */
+      /* msg.val[2]; // x ou la couleur doit etre ---> */
+      /* msg.val[3]; // y ou la couleur doit etre */
+      /* msg.val[4]; // x' --> destroy */
+      /* msg.val[5]; // y'---> destroy */
