@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 15:26:53 2015 Julie Terranova
-** Last update Fri Mar  6 15:51:56 2015 Julie Terranova
+** Last update Fri Mar  6 16:28:22 2015 moran-_d
 */
 
 #include <unistd.h>
@@ -42,6 +42,7 @@ int	move_msg(shared_t *shared, t_ttf sent, t_sdl *mine)
       else if (msg.val[0] == 666)
 	{
 	  sprintf(sent.str, "Game is over");
+	  printf("Game Over ! \n");
 	  return (42);
 	}
       send_to_print(sent, mine, &msg_nb);
@@ -72,14 +73,22 @@ void	send_to_print(t_ttf sent, t_sdl *mine, int *msg_nb)
   *msg_nb += 1;
 }
 
-void    move_picture(int (*map)[MAP_Y], t_sdl *mine)
+void    move_picture(shared_t *shared, int (*map)[MAP_Y], t_sdl *mine)
 {
+  struct sembuf sops;
   int x;
   int y;
 
   x = 0;
   y = 0;
   apply_surface(0, 0, mine->background, mine->screen);
+  sops.sem_num = 0;
+  sops.sem_flg = 0;
+  sops.sem_op = -1;
+  semop(shared->sem_id, &sops, 1);
+  sops.sem_op = 1;
+  shared = shared;
+  sops = sops;
   while (y < MAP_Y)
     {
       x = 0;
@@ -91,4 +100,5 @@ void    move_picture(int (*map)[MAP_Y], t_sdl *mine)
 	}
       y++;
     }
+  semop(shared->sem_id, &sops, 1);
 }

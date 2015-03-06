@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 11:13:21 2015 Julie Terranova
-** Last update Fri Mar  6 15:52:38 2015 Julie Terranova
+** Last update Fri Mar  6 16:11:17 2015 moran-_d
 */
 
 #ifndef LEMISDL_H__
@@ -34,7 +34,7 @@ typedef struct s_ttf
 
 int     draw(shared_t *shared, int (*map)[MAP_Y]);
 int     show_map(shared_t *shared, int (*map)[MAP_Y], t_sdl *mine, int bool);
-void    move_picture(int (*map)[MAP_Y], t_sdl *mine);
+void    move_picture(shared_t *shared, int (*map)[MAP_Y], t_sdl *mine);
 void    apply_surface(int x, int y, SDL_Surface* src, SDL_Surface* dest);
 int    move_msg(shared_t *shared, t_ttf sent, t_sdl *mine);
 void    clean_surface(int xy[6], SDL_Surface* src, SDL_Surface* dest);

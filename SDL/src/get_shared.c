@@ -5,9 +5,10 @@
 ** Login   <moran-_d@epitech.net>
 **
 ** Started on  Wed Mar  4 15:27:57 2015 moran-_d
-** Last update Wed Mar  4 18:41:50 2015 Julie Terranova
+** Last update Fri Mar  6 16:39:59 2015 moran-_d
 */
 
+#include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include "lemipc.h"
@@ -32,11 +33,11 @@ shared_t *get_shm(shared_t *shared)
 shared_t *get_sem(shared_t *shared)
 {
   shared->sem_id = semget(shared->key, 2, SHM_R | SHM_W);
-  if (shared->shm_id == -1)
+  if (shared->sem_id == -1)
     {
-          printf("Error during SEM recuperation\n");
-          free(shared);
-          return (NULL);
+      printf("Error during SEM recuperation\n");
+      free(shared);
+      return (NULL);
     }
   return (shared);
 }
@@ -46,9 +47,9 @@ shared_t *get_msg(shared_t *shared)
   shared->msg_id = msgget(shared->key, SHM_R | SHM_W);
   if (shared->msg_id == -1)
     {
-          printf("Error during MSG recuperation\n");
-          free(shared);
-          return (NULL);
+      printf("Error during MSG recuperation\n");
+      free(shared);
+      return (NULL);
     }
   return (shared);
 }

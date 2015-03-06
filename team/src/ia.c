@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 **
 ** Started on  Thu Mar  5 13:31:46 2015 moran-_d
-** Last update Fri Mar  6 15:52:18 2015 moran-_d
+** Last update Fri Mar  6 16:03:31 2015 moran-_d
 */
 
 #include "lemipc.h"
@@ -27,9 +27,11 @@ void check_mailbox(shared_t *shared, player_t *player)
 
 int exec_turn(shared_t *shared, player_t *player)
 {
+  // sem turn
   check_mailbox(shared, player);
   if (player->flag == 0)
     return (exec_commoner(shared, player));
   else
     return (exec_flag(shared, player));
+  // endsem turn
 }

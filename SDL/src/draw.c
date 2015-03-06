@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 15:15:36 2015 Julie Terranova
-** Last update Fri Mar  6 15:26:48 2015 Julie Terranova
+** Last update Fri Mar  6 16:41:14 2015 moran-_d
 */
 
 #include "lemisdl.h"
@@ -74,9 +74,8 @@ int     draw(shared_t *shared, int (*map)[MAP_Y])
   if (SDL_Flip(mine.screen) == -1)
     return (-1);
   bool = 0;
-  while (bool == 0)
-    if ((show_map(shared, map, &mine, bool)) == 42)
-      bool = 1;
+  while (bool != 42 && bool != -1)
+    bool = show_map(shared, map, &mine, bool);
   SDL_FreeSurface(mine.background);
   SDL_Quit();
   return (0);

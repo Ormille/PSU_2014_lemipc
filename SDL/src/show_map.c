@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Fri Mar  6 15:50:11 2015 Julie Terranova
-** Last update Fri Mar  6 15:51:51 2015 Julie Terranova
+** Last update Fri Mar  6 16:30:41 2015 moran-_d
 */
 
 #include "lemisdl.h"
@@ -33,14 +33,17 @@ int     show_map(shared_t *shared, int (*map)[MAP_Y], t_sdl *mine, int bool)
   if (SDL_Flip(mine->screen) == -1)
     return (-1);
   if (bool == 0)
-    move_picture(map, mine);
+    {
+      move_picture(shared, map, mine);
+      bool = 1;
+    }
   else
     if ((move_msg(shared, sent, mine)) == 42)
       return (42);
   free(sent.str);
   TTF_CloseFont(sent.font);
   TTF_Quit();
-  return (0);
+  return (bool);
 }
 
 void    pop(msg_t msg, t_sdl *mine)
