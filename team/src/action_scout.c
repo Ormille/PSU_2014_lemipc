@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 ** 
 ** Started on  Wed Mar  4 20:14:08 2015 moran-_d
-** Last update Thu Mar  5 14:21:10 2015 moran-_d
+** Last update Fri Mar  6 15:51:47 2015 moran-_d
 */
 
 #include "lemipc.h"
@@ -27,15 +27,12 @@ int check_enemy_in_radius(shared_t *shared, int pos[2], int radius, int color)
     xmax = MAP_X;
   while (y <= ymax)
     {
-      if ((x = pos[0] - radius) < 0)
-	x = 0;
-      while (x <= xmax)
-	{
-	  if (shared->map[x][y] > 0 &&
-	      shared->map[x][y] != color)
-	    ++enemies;
-	  ++x;
-	}
+      if ((x = pos[0] - radius - 1) < 0)
+	x = -1;
+      while (++x <= xmax)
+	if (shared->map[x][y] > 0 &&
+	    shared->map[x][y] != color)
+	  ++enemies;
       ++y;
     }
   return (enemies);

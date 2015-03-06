@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 **
 ** Started on  Wed Mar  4 15:58:48 2015 moran-_d
-** Last update Fri Mar  6 15:47:02 2015 moran-_d
+** Last update Fri Mar  6 15:52:40 2015 moran-_d
 */
 
 #include <unistd.h>
@@ -84,5 +84,5 @@ int create_player(shared_t *shared, int color)
   else if (pid > 0)
     return (0);
   init_player(shared, color, 0);
-  return (1); /* for fork loop */
+  return (1);
 }

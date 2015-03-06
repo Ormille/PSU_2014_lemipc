@@ -1,11 +1,11 @@
 /*
 ** get_shared.c for get_shared in /home/moran-_d/rendu/PSU_2014_lemipc
-** 
+**
 ** Made by moran-_d
 ** Login   <moran-_d@epitech.net>
-** 
+**
 ** Started on  Wed Mar  4 15:27:57 2015 moran-_d
-** Last update Fri Mar  6 15:45:25 2015 moran-_d
+** Last update Fri Mar  6 15:52:03 2015 moran-_d
 */
 
 #include <string.h>
@@ -56,7 +56,7 @@ shared_t *get_sem(shared_t *shared)
       semctl(shared->sem_id, 0, SETVAL, 1);
       semctl(shared->sem_id, 1, SETVAL, 1);
     }
-  return (shared);  
+  return (shared);
 }
 
 shared_t *get_msg(shared_t *shared)
