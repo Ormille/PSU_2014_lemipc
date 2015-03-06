@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 **
 ** Started on  Wed Mar  4 15:58:48 2015 moran-_d
-** Last update Fri Mar  6 16:14:24 2015 moran-_d
+** Last update Fri Mar  6 22:11:09 2015 Julie Terranova
 */
 
 #include <unistd.h>
@@ -52,7 +52,8 @@ int exec_ia(shared_t *shared, player_t *player)
   while (! quit)
     {
             quit = 1;
-      //      quit = exec_turn(shared, player);
+	    if (player->flag == 1) // just test tmp
+	      exec_turn(shared, player);
     }
   return (0);
 }
