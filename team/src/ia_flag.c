@@ -5,24 +5,13 @@
 ** Login   <moran-_d@epitech.net>
 **
 ** Started on  Thu Mar  5 14:02:15 2015 moran-_d
-** Last update Fri Mar  6 23:06:14 2015 Julie Terranova
+** Last update Sat Mar  7 18:44:00 2015 moran-_d
 */
 
 #include <stdio.h>
-#include <math.h>
 #include <unistd.h>
 #include "lemipc.h"
 #include "ia.h"
-
-int distance(int xa, int ya, int xb, int yb)
-{
-  int ret;
-
-  ret = fabs(xa - xb);
-  if (fabs(ya - yb) < ret)
-    ret = fabs(ya - yb);
-  return (ret);
-}
 
 int	find_player(shared_t *shared, player_t *player, int pair[MAX_PLAYERS][2])
 {
@@ -275,7 +264,7 @@ int exec_flag(shared_t *shared, player_t *player)
 {
   shared = shared;
   player = player;
-  sleep(2);
+  printf("Flag AI EXEC\n");
   pair_players_objectives(shared, player);
   return (1);
 }

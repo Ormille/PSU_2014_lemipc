@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 **
 ** Started on  Wed Mar  4 15:58:48 2015 moran-_d
-** Last update Fri Mar  6 23:09:01 2015 moran-_d
+** Last update Sat Mar  7 19:54:18 2015 moran-_d
 */
 
 #include <unistd.h>
@@ -51,9 +51,8 @@ int exec_ia(shared_t *shared, player_t *player)
   player = player;
   while (! quit)
     {
-            quit = 1;
-	    if (player->flag == 1) // just test tmp
-	      exec_turn(shared, player);
+      quit = 1;
+      exec_turn(shared, player);
     }
   return (0);
 }
@@ -68,6 +67,9 @@ int init_player(shared_t *shared, int color, int flag)
   if (place_player(shared, &player) != 0)
     return (-1);
   printf("player %d --- x = %d --- y = %d\n", color, player.x, player.y);
+  player.objective[0] = player.x;
+  player.objective[1] = player.y;
+  player.objective[2] = 0;
   msg_graph(shared, &player, 1, (int[2]){0, 0});
   exec_ia(shared, &player);
   return (0);

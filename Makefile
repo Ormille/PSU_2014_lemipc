@@ -5,7 +5,7 @@
 ## Login   <terran_j@epitech.net>
 ##
 ## Started on  Wed Mar  4 11:09:24 2015 Julie Terranova
-## Last update Fri Mar  6 22:13:25 2015 Julie Terranova
+## Last update Sat Mar  7 13:23:29 2015 moran-_d
 ##
 
 NAME1=	lemipc
@@ -17,6 +17,7 @@ DIR1=   team/src/
 DIR2=   SDL/src/
 
 SRC1=	$(DIR1)main.c \
+	$(DIR1)maths.c \
 	$(DIR1)team.c \
 	$(DIR1)player.c \
 	$(DIR1)get_shared.c \

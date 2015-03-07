@@ -5,13 +5,44 @@
 ** Login   <moran-_d@epitech.net>
 ** 
 ** Started on  Thu Mar  5 13:52:54 2015 moran-_d
-** Last update Fri Mar  6 16:06:25 2015 moran-_d
+** Last update Sat Mar  7 20:02:08 2015 moran-_d
 */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include "lemipc.h"
 #include "ia.h"
 
+int opportunist_kill(shared_t *shared, player_t *player)
+{
+  int **nearby;
+  int size;
+
+  size = 0;
+  nearby = (int**)check_teams_in_radius(shared, (int[2]){player->x, player->y}, 2,
+				 &size);
+  while (nearby != NULL && size >= 0)
+    {
+      if (nearby[size][2] != player->color &&
+          distance(nearby[size][0], nearby[size][1],
+                   player->x, player->y) == 2
+          && check_entity_in_radius(shared, (int*)nearby[size],
+                                    1, player->color * -1))
+	if (move_safely(shared, player, (int*)nearby[size]) == 0)
+	  {
+	    free(nearby);
+	    return (0);
+	  }
+      --size;
+    }
+  free(nearby);
+  return (-1);
+}
+
 int exec_commoner(shared_t *shared, player_t *player)
 {
+  if (opportunist_kill(shared, player) == 0)
+    return (0);
   return (move_toward_objective(shared, player));
 }
