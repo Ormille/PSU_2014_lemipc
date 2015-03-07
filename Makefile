@@ -5,7 +5,7 @@
 ## Login   <terran_j@epitech.net>
 ##
 ## Started on  Wed Mar  4 11:09:24 2015 Julie Terranova
-## Last update Fri Mar  6 15:53:22 2015 Julie Terranova
+## Last update Fri Mar  6 22:13:25 2015 Julie Terranova
 ##
 
 NAME1=	lemipc
@@ -38,9 +38,9 @@ OBJ1=   $(SRC1:.c=.o)
 
 OBJ2=   $(SRC2:.c=.o)
 
-CFLAGS= -Wall -Wextra -Werror -I team/include/ -I SDL/include/
+CFLAGS= -Wall -Wextra -Werror -I team/include/ -I SDL/include/ -g # a virer!!
 
-LDFLAGS1= -lX11
+LDFLAGS1= -lX11 -lm
 
 LDFLAGS2= -lSDLmain -lSDL -lX11 -lSDL_ttf
 
