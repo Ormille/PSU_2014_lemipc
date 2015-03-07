@@ -5,9 +5,10 @@
 ** Login   <moran-_d@epitech.net>
 **
 ** Started on  Wed Mar  4 15:54:16 2015 moran-_d
-** Last update Wed Mar  4 20:17:44 2015 moran-_d
+** Last update Sat Mar  7 20:31:48 2015 moran-_d
 */
 
+#include <unistd.h>
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
@@ -59,6 +60,7 @@ int init_team(shared_t *shared, int nb_players)
       if ((create_player(shared, color)) != 0)
 	return (0);
     }
+  sleep(1);
   init_player(shared, color, 1);
   return (0);
 }

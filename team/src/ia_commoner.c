@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 ** 
 ** Started on  Thu Mar  5 13:52:54 2015 moran-_d
-** Last update Sat Mar  7 20:02:08 2015 moran-_d
+** Last update Sat Mar  7 20:37:44 2015 moran-_d
 */
 
 #include <stdio.h>
@@ -42,7 +42,9 @@ int opportunist_kill(shared_t *shared, player_t *player)
 
 int exec_commoner(shared_t *shared, player_t *player)
 {
+  printf("Here 1\n");
   if (opportunist_kill(shared, player) == 0)
     return (0);
+  printf("Here 2\n");
   return (move_toward_objective(shared, player));
 }
