@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Fri Mar  6 15:50:11 2015 Julie Terranova
-** Last update Fri Mar  6 16:30:41 2015 moran-_d
+** Last update Sun Mar  8 15:05:01 2015 moran-_d
 */
 
 #include "lemisdl.h"
@@ -54,6 +54,6 @@ void    pop(msg_t msg, t_sdl *mine)
 
 void    destroy(msg_t msg, t_sdl *mine)
 {
-  clean_surface((int[6]){msg.val[4], msg.val[5], 13, 13, msg.val[4],
-	msg.val[5]}, mine->background, mine->screen);
+  clean_surface((int[6]){msg.val[4] * 15, msg.val[5] * 15, 13, 13,
+	msg.val[4] * 15, msg.val[5] * 15}, mine->background, mine->screen);
 }

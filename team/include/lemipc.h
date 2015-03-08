@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 11:13:21 2015 Julie Terranova
-** Last update Sun Mar  8 12:08:41 2015 moran-_d
+** Last update Sun Mar  8 15:42:00 2015 moran-_d
 */
 
 #ifndef LEMIPC_H__
@@ -23,6 +23,8 @@
 #define MAP_SIZE	(CELL_SIZE * CELL_SIZE * MAP_X * MAP_Y)
 #define DATA_SIZE	sizeof(int)
 #define SHM_SIZE	(MAP_SIZE + DATA_SIZE)
+
+#define TURN_TIME	250
 
 #define MAX_TEAM		12
 #define MAX_PLAYERS		12

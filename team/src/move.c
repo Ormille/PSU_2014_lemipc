@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 ** 
 ** Started on  Thu Mar  5 14:07:35 2015 moran-_d
-** Last update Sun Mar  8 14:34:50 2015 moran-_d
+** Last update Sun Mar  8 15:20:16 2015 moran-_d
 */
 
 #include <stdio.h>
@@ -87,5 +87,6 @@ int move_toward_objective(shared_t *shared, player_t *player)
     try[0] *= -1;
   else if (player->objective[1] < player->y)
     try[1] *= -1;
-  return (advance_safely(shared, player, try));
+  advance_safely(shared, player, try);
+  return (0);
 }

@@ -5,9 +5,10 @@
 ** Login   <moran-_d@epitech.net>
 **
 ** Started on  Thu Mar  5 13:31:46 2015 moran-_d
-** Last update Sun Mar  8 14:25:57 2015 moran-_d
+** Last update Sun Mar  8 15:42:52 2015 moran-_d
 */
 
+#include <unistd.h>
 #include <stdio.h>
 #include "lemipc.h"
 #include "ia.h"
@@ -16,27 +17,27 @@ int check_mailbox(shared_t *shared, player_t *player)
 {
   msg_t msg;
   long id;
+  int ret;
 
+  ret = 0;
   id = player->x;
   id = id << sizeof(int);
   id += player->y;
-  printf("Check Mailbox with ID : [ %ld ] --- pos [ %d %d ]\n", id, player->x, player->y);
   while (msgrcv(shared->msg_id, &msg, MSG_SIZE, id, IPC_NOWAIT) != -1)
     {
-      printf("[ %ld ] received msg\n", id);
       if (msg.val[0] == 0) /* move */
 	{
 	  player->objective[0] = msg.val[1];
 	  player->objective[1] = msg.val[2];
 	  player->objective[2] = msg.val[3];
 	}
-      else if (msg.val[0] == 1) /* dead */
+      else if (msg.val[0] == 2 && ret != 1) /* dead */
 	{
 	  printf("Oh, i'm dead :'( My position is already cleared on map, BTW\n");
-	  return (1);
+	  ret = 1;
 	}
     }
-  return (0);
+  return (ret);
 }
 
 int exec_turn(shared_t *shared, player_t *player)
@@ -52,12 +53,16 @@ int exec_turn(shared_t *shared, player_t *player)
   ret = -1;
 
   if (check_mailbox(shared, player) == 1)
-    return (1);
+    {
+      semop(shared->sem_id, &sops, 1);
+      return (1);
+    }
   if (player->flag == 0)
     ret = exec_commoner(shared, player);
   else
     ret = exec_flag(shared, player);
 
+  usleep(TURN_TIME);
   semop(shared->sem_id, &sops, 1);
   return (ret);
 }

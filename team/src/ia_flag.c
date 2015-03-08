@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 **
 ** Started on  Thu Mar  5 14:02:15 2015 moran-_d
-** Last update Sun Mar  8 14:36:59 2015 moran-_d
+** Last update Sun Mar  8 15:21:06 2015 moran-_d
 */
 
 #include <stdio.h>
@@ -225,7 +225,6 @@ void send_players_formations(shared_t *shared, int pair[2][MAX_PLAYERS][2], int 
   msg_t msg;
 
   i = -1;
-  printf("nb players = %d\n", nb_players);
   while (++i < nb_players)
     {
       msg.type = pair[0][i][0];
@@ -235,7 +234,7 @@ void send_players_formations(shared_t *shared, int pair[2][MAX_PLAYERS][2], int 
       msg.val[1] = pair[1][i][0];
       msg.val[2] = pair[1][i][1];
       msg.val[3] = 0;
-      printf("player %d is in x: %d and y: %d and wanna go to x: %d and y: %d -- Color %d -- Id %ld\n", i, pair[0][i][0], pair[0][i][1], pair[1][i][0], pair[1][i][1], shared->map[pair[0][i][0]][pair[0][i][1]], msg.type);
+      /*      printf("player %d is in x: %d and y: %d and wanna go to x: %d and y: %d -- Color %d -- Id %ld\n", i, pair[0][i][0], pair[0][i][1], pair[1][i][0], pair[1][i][1], shared->map[pair[0][i][0]][pair[0][i][1]], msg.type); */
       msgsnd(shared->msg_id, &msg, MSG_SIZE, 0);
     }
 }
@@ -260,5 +259,5 @@ int exec_flag(shared_t *shared, player_t *player)
 {
   pair_players_objectives(shared, player);
   //  print_map(shared);
-  return (1);
+  return (0);
 }

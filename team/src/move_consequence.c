@@ -5,14 +5,14 @@
 ** Login   <moran-_d@epitech.net>
 ** 
 ** Started on  Sun Mar  8 11:29:53 2015 moran-_d
-** Last update Sun Mar  8 12:27:15 2015 moran-_d
+** Last update Sun Mar  8 15:01:55 2015 moran-_d
 */
 
 #include <stdlib.h>
 #include <stdio.h>
 #include "lemipc.h"
 
-void kill_player(shared_t *shared, int x, int y)
+void kill_player(shared_t *shared, player_t *player, int x, int y)
 {
   msg_t msg;
 
@@ -26,8 +26,9 @@ void kill_player(shared_t *shared, int x, int y)
   msg.type = x;
   msg.type = msg.type << sizeof(int);
   msg.type += y;
-  msg.val[0] = 1;
-  //  msgsnd(shared->msg_id, &msg, MSG_SIZE, IPC_NOWAIT);
+  msg.val[0] = 2;
+  msgsnd(shared->msg_id, &msg, MSG_SIZE, IPC_NOWAIT);
+  msg_graph(shared, player, 2, (int[2]){x, y});
   msg = msg;
 }
 
@@ -54,7 +55,7 @@ void move_consequence(shared_t *shared, player_t *player)
   while (--i >= 0)
     {
       if (near[i][2] == 0)
-	kill_player(shared, near[i][0], near[i][1]);
+	kill_player(shared, player, near[i][0], near[i][1]);
     }
   if (near != NULL)
     free(near);
