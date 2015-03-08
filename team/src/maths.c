@@ -1,11 +1,11 @@
 /*
 ** maths.c for maths in /home/moran-_d/rendu/PSU_2014_lemipc/team/src
-** 
+**
 ** Made by moran-_d
 ** Login   <moran-_d@epitech.net>
-** 
+**
 ** Started on  Sat Mar  7 13:22:53 2015 moran-_d
-** Last update Sun Mar  8 10:05:51 2015 moran-_d
+** Last update Sun Mar  8 21:17:49 2015 Julie Terranova
 */
 
 #include <stdio.h>
@@ -27,7 +27,7 @@ void get_pattern(int try[2], int (*pos)[2], int pattern)
   if (pattern == 1)
     {
       (*pos)[0] += try[0];
-      (*pos)[1] += try[1];      
+      (*pos)[1] += try[1];
     }
   if (pattern == 2)
     (*pos)[0] += !try[0];

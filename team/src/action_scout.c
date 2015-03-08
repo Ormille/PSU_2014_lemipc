@@ -1,11 +1,11 @@
 /*
 ** action_scout.c for action_scout in /home/moran-_d/rendu/PSU_2014_lemipc
-** 
+**
 ** Made by moran-_d
 ** Login   <moran-_d@epitech.net>
-** 
+**
 ** Started on  Wed Mar  4 20:14:08 2015 moran-_d
-** Last update Sun Mar  8 20:04:20 2015 moran-_d
+** Last update Sun Mar  8 21:54:43 2015 Julie Terranova
 */
 
 #include <stdio.h>
@@ -46,6 +46,19 @@ int check_entity_in_radius(shared_t *shared, int pos[2], int radius, int color)
   return (entities);
 }
 
+int **pass_by_me(int ***enemies, shared_t *shared, int *size, int xy[2])
+{
+  if (shared->map[xy[0]][xy[1]] > 0)
+  {
+    if (((*enemies)[++(*size)] = malloc(sizeof(int) * 3)) == NULL)
+      return (NULL);
+    (*enemies)[*size][0] = xy[0];
+    (*enemies)[*size][1] = xy[1];
+    (*enemies)[*size][2] = shared->map[xy[0]][xy[1]];
+  }
+  return (0);
+}
+
 int **check_teams_in_radius(shared_t *shared, int pos[2],
 			   int radius, int *size)
 {
@@ -70,14 +83,8 @@ int **check_teams_in_radius(shared_t *shared, int pos[2],
       if ((xy[0] = pos[0] - radius - 1) < 0)
 	xy[0] = -1;
       while (++xy[0] <= xmax)
-	if (shared->map[xy[0]][xy[1]] > 0)
-	  {
-	    if ((enemies[++(*size)] = malloc(sizeof(int) * 3)) == NULL)
-	      return (NULL);
-	    enemies[*size][0] = xy[0];
-	    enemies[*size][1] = xy[1];
-	    enemies[*size][2] = shared->map[xy[0]][xy[1]];
-	  }
+	if ((pass_by_me(&enemies, shared, size, xy)) == NULL)
+	  return (NULL);
     }
   return ((int**)enemies);
 }

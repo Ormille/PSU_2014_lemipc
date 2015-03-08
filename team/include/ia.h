@@ -1,11 +1,11 @@
 /*
 ** ia.h for ia in /home/moran-_d/rendu/PSU_2014_lemipc
-** 
+**
 ** Made by moran-_d
 ** Login   <moran-_d@epitech.net>
-** 
+**
 ** Started on  Fri Mar  6 14:40:38 2015 moran-_d
-** Last update Sun Mar  8 19:08:13 2015 moran-_d
+** Last update Sun Mar  8 21:21:03 2015 Julie Terranova
 */
 
 #ifndef IA_H_
@@ -33,6 +33,5 @@ void    get_formation_right(int (*formation)[MAX_PLAYERS][2]);
 void    get_formation_left(int (*formation)[MAX_PLAYERS][2]);
 void    get_formation_down(int (*formation)[MAX_PLAYERS][2]);
 void    get_formation_up(int (*formation)[MAX_PLAYERS][2]);
-
 
 #endif
