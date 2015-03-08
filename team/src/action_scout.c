@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 ** 
 ** Started on  Wed Mar  4 20:14:08 2015 moran-_d
-** Last update Sun Mar  8 18:30:05 2015 moran-_d
+** Last update Sun Mar  8 20:04:20 2015 moran-_d
 */
 
 #include <stdio.h>
@@ -95,7 +95,7 @@ int search_max_enemy_same_team(shared_t *shared, int pos[2],
     {
       if (i != color)
 	if ((tmp_max = check_entity_in_radius(shared, pos,
-					      radius, color * -1)) > max)
+					      radius, i * -1)) > max)
 	  max = tmp_max;
     }
   return (max);

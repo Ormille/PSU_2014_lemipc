@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 ** 
 ** Started on  Sun Mar  8 11:29:53 2015 moran-_d
-** Last update Sun Mar  8 18:32:56 2015 moran-_d
+** Last update Sun Mar  8 20:01:13 2015 moran-_d
 */
 
 #include <stdlib.h>
@@ -16,7 +16,7 @@ void kill_player(shared_t *shared, player_t *player, int x, int y)
 {
   msg_t msg;
 
-  printf("ONE FRAG\n");
+  printf("Player from team %d FRAGGED\n", shared->map[x][y]);
   if (shared->map[x][y] == 0)
     {
       printf("You're trying to kill some air. Genius.\n");
@@ -42,9 +42,9 @@ void move_consequence(shared_t *shared, player_t *player)
   near = check_teams_in_radius(shared, (int[2]){player->x, player->y}, 1, &s);
   while (near != NULL && ++i <= s)
     {
-      if ((shared->map[near[i][0]][near[i][1]]) != player->color
-	  && check_entity_in_radius(shared, (int[2]){near[i][0], near[i][1]},
-				    1, player->color * -1) >= 2)
+      if (near[i][2] != player->color &&
+	  check_entity_in_radius(shared, (int[2]){near[i][0], near[i][1]},
+				 1, player->color * -1) >= 2)
 	near[i][2] = 0;
       else if (near[i][0] == player->x && near[i][1] == player->y
 	       && search_max_enemy_same_team(shared,
