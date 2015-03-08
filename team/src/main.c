@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 11:12:41 2015 Julie Terranova
-** Last update Sun Mar  8 18:25:51 2015 moran-_d
+** Last update Sun Mar  8 20:43:28 2015 moran-_d
 */
 
 #include <stdlib.h>
@@ -14,7 +14,6 @@
 
 void clean_all(shared_t *shared)
 {
-  printf("CLEAN ALL ENTRY\n");
   shmctl(shared->shm_id, IPC_RMID, NULL);
   semctl(shared->msg_id, 2, IPC_RMID);
   msgctl(shared->sem_id, IPC_RMID, NULL);
