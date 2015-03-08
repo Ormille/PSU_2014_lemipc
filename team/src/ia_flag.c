@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 **
 ** Started on  Thu Mar  5 14:02:15 2015 moran-_d
-** Last update Sat Mar  7 20:33:32 2015 moran-_d
+** Last update Sun Mar  8 14:36:59 2015 moran-_d
 */
 
 #include <stdio.h>
@@ -21,39 +21,23 @@ int	find_player(shared_t *shared, player_t *player, int pair[MAX_PLAYERS][2])
   int x;
   int y;
 
-  x = (y = 0);
-  nb_players = 0;
+  y = (nb_players = 0) - 1;
   dist = 2147483647;
-  while (x < MAP_X)
-    {
-      y = 0;
-       while (y < MAP_Y)
+  while (++y < MAP_Y && (x = -1) < 0)
+    while (++x < MAP_X)
+      if (shared->map[x][y] == player->color
+	  && (x != player->x || y != player->y))
 	{
-	  if (shared->map[x][y] == player->color
-	      && (!(x == player->x && y == player->y)))
-	    {
-	      pair[nb_players][0] = x;
-	      pair[nb_players][1] = y;
-	      nb_players++;
-	    }
-	  if (shared->map[x][y] != 0 && shared->map[x][y] != player->color)
-	    {
-	      if ((tmp_dist = distance(player->x, player->y, x, y)) < dist)
-		{
-		  dist = tmp_dist;
-		  player->objective[0] = x;
-		  player->objective[1] = y;
-		}
-	    }
-	  y++;
+	  pair[nb_players][0] = x;
+	  pair[nb_players++][1] = y;
 	}
-      x++;
-    }
-  if (dist == 2147483647)
-    {
-      player->objective[0] = !player->x;
-      player->objective[1] = !player->y;
-    }
+      else if (shared->map[x][y] != 0 && shared->map[x][y] != player->color)
+	if ((tmp_dist = distance(player->x, player->y, x, y)) < dist)
+	  {
+	    dist = tmp_dist;
+	    player->objective[0] = x;
+	    player->objective[1] = y;
+	  }
   return (nb_players);
 }
 
@@ -185,7 +169,7 @@ void   find_formation(player_t *player, int nb_players, int (*formation)[MAX_PLA
     get_formation_left(&formation_pattern);
   else if (player->y - player->objective[1] < 0)
     get_formation_down(&formation_pattern);
-  else if (player->y - player->objective[1] > 0)
+  else if (player->y - player->objective[1] >= 0)
     get_formation_up(&formation_pattern);
   while (i < nb_players)
     {
@@ -193,8 +177,12 @@ void   find_formation(player_t *player, int nb_players, int (*formation)[MAX_PLA
       (*formation)[i][1] = player->y + formation_pattern[i][1];
       if ((*formation)[i][0] > MAP_X)
 	(*formation)[i][0] = MAP_X;
+      else if ((*formation)[i][0] < 0)
+	(*formation)[i][0] = 0;
       if ((*formation)[i][1] > MAP_Y)
 	(*formation)[i][1] = MAP_Y;
+      else if ((*formation)[i][1] < 0)
+	(*formation)[i][1] = 0;
       i++;
     }
 }
@@ -231,16 +219,24 @@ void give_formation(int (*pair)[2][MAX_PLAYERS][2],
     }
 }
 
-void view_players_formations(int pair[2][MAX_PLAYERS][2], int nb_players) // atej
+void send_players_formations(shared_t *shared, int pair[2][MAX_PLAYERS][2], int nb_players)
 {
   int i;
+  msg_t msg;
 
-  i = 0;
+  i = -1;
   printf("nb players = %d\n", nb_players);
-  while (i < nb_players)
+  while (++i < nb_players)
     {
-      printf("player %d is in x: %d and y: %d and wanna go to x: %d and y: %d\n", i, pair[0][i][0], pair[0][i][1], pair[1][i][0], pair[1][i][1]);
-      i++;
+      msg.type = pair[0][i][0];
+      msg.type = msg.type << sizeof(int);
+      msg.type += pair[0][i][1];
+      msg.val[0] = 0;
+      msg.val[1] = pair[1][i][0];
+      msg.val[2] = pair[1][i][1];
+      msg.val[3] = 0;
+      printf("player %d is in x: %d and y: %d and wanna go to x: %d and y: %d -- Color %d -- Id %ld\n", i, pair[0][i][0], pair[0][i][1], pair[1][i][0], pair[1][i][1], shared->map[pair[0][i][0]][pair[0][i][1]], msg.type);
+      msgsnd(shared->msg_id, &msg, MSG_SIZE, 0);
     }
 }
 
@@ -255,16 +251,14 @@ int pair_players_objectives(shared_t *shared, player_t *player)
   find_formation(player, nb_players, &formation); // definir emplacements ou aller
   give_formation(&pair, formation, nb_players); // donner a chaque joueur sa position
 
-  view_players_formations(pair, nb_players); // pour montrer ou les joueurs veulent aller
+  send_players_formations(shared, pair, nb_players); // pour envoyer les objectifs aux joueurs via msgq
 
   return (0);
 }
 
 int exec_flag(shared_t *shared, player_t *player)
 {
-  shared = shared;
-  player = player;
-  printf("Flag AI EXEC\n");
   pair_players_objectives(shared, player);
+  //  print_map(shared);
   return (1);
 }

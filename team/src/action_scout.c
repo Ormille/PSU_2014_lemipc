@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 ** 
 ** Started on  Wed Mar  4 20:14:08 2015 moran-_d
-** Last update Sat Mar  7 20:40:10 2015 moran-_d
+** Last update Sun Mar  8 12:04:18 2015 moran-_d
 */
 
 #include <stdio.h>
@@ -13,7 +13,9 @@
 #include <string.h>
 #include "lemipc.h"
 
-/* color > 0 : check for != color. color < 0 : check for == color * -1 */
+/* color > 0 : check for != color */
+/* color < 0 : check for == color * -1 */
+/* color == 0 : check for every entities */
 int check_entity_in_radius(shared_t *shared, int pos[2], int radius, int color)
 {
   int entities;
@@ -22,7 +24,6 @@ int check_entity_in_radius(shared_t *shared, int pos[2], int radius, int color)
   int x;
   int y;
 
-  printf("Here 5\n");
   entities = 0;
   if ((y = pos[1] - radius - 1) < 0)
     y = -1;
@@ -41,7 +42,6 @@ int check_entity_in_radius(shared_t *shared, int pos[2], int radius, int color)
 	     || (color == 0)))
 	  ++entities;
     }
-  printf("Here 7\n");
   return (entities);
 }
 
@@ -79,4 +79,24 @@ int **check_teams_in_radius(shared_t *shared, int pos[2],
 	  }
     }
   return ((int**)enemies);
+}
+
+int search_max_enemy_same_team(shared_t *shared, int pos[2],
+			       int radius, int color)
+{
+  int i;
+  int max;
+  int tmp_max;
+
+  i = 0;
+  max = 0;
+  while (i < MAX_TEAM)
+    {
+      if (i != color)
+	if ((tmp_max = check_entity_in_radius(shared, pos,
+					      radius, color * -1)) > max)
+	  max = tmp_max;
+      ++i;
+    }
+  return (max);
 }

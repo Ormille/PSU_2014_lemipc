@@ -5,10 +5,12 @@
 ** Login   <moran-_d@epitech.net>
 ** 
 ** Started on  Sat Mar  7 13:22:53 2015 moran-_d
-** Last update Sat Mar  7 20:51:36 2015 moran-_d
+** Last update Sun Mar  8 10:05:51 2015 moran-_d
 */
 
+#include <stdio.h>
 #include <math.h>
+#include "lemipc.h"
 
 int distance(int xa, int ya, int xb, int yb)
 {
@@ -38,4 +40,23 @@ void get_pattern(int try[2], int (*pos)[2], int pattern)
     }
   else if (pattern == 5)
     (*pos)[1] += -1 * try[1];
+}
+
+void print_map(shared_t *shared)
+{
+  int x;
+  int y;
+
+  y = 0;
+  while (y < MAP_Y)
+    {
+      x = 0;
+      while (x < MAP_X)
+	{
+	  printf("%d ", shared->map[x][y]);
+	  ++x;
+	}
+      printf("<===\n");
+      ++y;
+    }
 }

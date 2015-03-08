@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 ** 
 ** Started on  Thu Mar  5 13:52:54 2015 moran-_d
-** Last update Sat Mar  7 20:37:44 2015 moran-_d
+** Last update Sun Mar  8 14:21:41 2015 moran-_d
 */
 
 #include <stdio.h>
@@ -36,15 +36,16 @@ int opportunist_kill(shared_t *shared, player_t *player)
 	  }
       --size;
     }
-  free(nearby);
+  if (nearby != NULL)
+    free(nearby);
   return (-1);
 }
 
 int exec_commoner(shared_t *shared, player_t *player)
 {
-  printf("Here 1\n");
   if (opportunist_kill(shared, player) == 0)
     return (0);
-  printf("Here 2\n");
-  return (move_toward_objective(shared, player));
+  if (player->x != player->objective[0] || player->y != player->objective[1])
+    return (move_toward_objective(shared, player));
+  return (0);
 }
