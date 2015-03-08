@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 15:26:53 2015 Julie Terranova
-** Last update Sun Mar  8 15:43:29 2015 moran-_d
+** Last update Sun Mar  8 19:24:24 2015 moran-_d
 */
 
 #include <unistd.h>
@@ -16,12 +16,6 @@ void	move(msg_t msg, t_sdl *mine)
 {
   destroy(msg, mine);
   pop(msg, mine);
-  /*
-  clean_surface((int[6]){msg.val[4] * 15, msg.val[5] * 15, 13, 13,
-	msg.val[4] * 15, msg.val[5] * 15}, mine->background, mine->screen);
-  apply_surface(msg.val[2] * 15, msg.val[3] * 15, mine->tab[msg.val[1]],
-		mine->screen);
-  */
 }
 
 int treat_msg(t_sdl *mine, t_ttf sent, msg_t msg)
@@ -56,7 +50,6 @@ int	move_msg(shared_t *shared, t_ttf sent, t_sdl *mine)
   while (msgrcv(shared->msg_id, &msg, MSG_SIZE, GRAPH_TYPE, IPC_NOWAIT) != -1)
     if (treat_msg(mine, sent, msg) == 42)
       return (42);
-  usleep(TURN_TIME);
   return (0);
 }
 

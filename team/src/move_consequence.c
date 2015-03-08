@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 ** 
 ** Started on  Sun Mar  8 11:29:53 2015 moran-_d
-** Last update Sun Mar  8 15:01:55 2015 moran-_d
+** Last update Sun Mar  8 18:32:56 2015 moran-_d
 */
 
 #include <stdlib.h>
@@ -27,7 +27,7 @@ void kill_player(shared_t *shared, player_t *player, int x, int y)
   msg.type = msg.type << sizeof(int);
   msg.type += y;
   msg.val[0] = 2;
-  msgsnd(shared->msg_id, &msg, MSG_SIZE, IPC_NOWAIT);
+  msgsnd(shared->msg_id, &msg, MSG_SIZE, 0);
   msg_graph(shared, player, 2, (int[2]){x, y});
   msg = msg;
 }

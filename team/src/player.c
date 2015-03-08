@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 **
 ** Started on  Wed Mar  4 15:58:48 2015 moran-_d
-** Last update Sun Mar  8 15:15:40 2015 moran-_d
+** Last update Sun Mar  8 19:25:31 2015 moran-_d
 */
 
 #include <unistd.h>
@@ -38,6 +38,7 @@ int place_player(shared_t *shared, player_t *player)
 	  return (0);
 	}
     }
+  me_dead(shared, player);
   semop(shared->sem_id, &sops, 1);
   return (-1);
 }
@@ -54,7 +55,7 @@ int exec_ia(shared_t *shared, player_t *player)
       quit = exec_turn(shared, player);
     }
   printf("\t\t\tQUITTING %d\n", quit);
-  return (0);
+  return (quit);
 }
 
 int init_player(shared_t *shared, int color, int flag)
@@ -63,16 +64,17 @@ int init_player(shared_t *shared, int color, int flag)
 
   player.color = color;
   player.regroup = 1;
-  player.flag = flag;
+  if ((player.flag = flag) == 1)
+    player.objective[2] = GROUPING_TURN;
+  else
+    player.objective[2] = 0;
   if (place_player(shared, &player) != 0)
     return (-1);
   printf("player %d --- x = %d --- y = %d\n", color, player.x, player.y);
   player.objective[0] = player.x;
   player.objective[1] = player.y;
-  player.objective[2] = 0;
   msg_graph(shared, &player, 1, (int[2]){0, 0});
-  exec_ia(shared, &player);
-  return (0);
+  return (exec_ia(shared, &player));
 }
 
 int create_player(shared_t *shared, int color)
@@ -86,6 +88,5 @@ int create_player(shared_t *shared, int color)
     }
   else if (pid > 0)
     return (0);
-  init_player(shared, color, 0);
-  return (1);
+  return (init_player(shared, color, 0));
 }

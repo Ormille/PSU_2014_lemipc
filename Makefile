@@ -5,7 +5,7 @@
 ## Login   <terran_j@epitech.net>
 ##
 ## Started on  Wed Mar  4 11:09:24 2015 Julie Terranova
-## Last update Sun Mar  8 12:19:14 2015 moran-_d
+## Last update Sun Mar  8 19:08:38 2015 moran-_d
 ##
 
 NAME1=	lemipc
@@ -28,6 +28,7 @@ SRC1=	$(DIR1)main.c \
 	$(DIR1)ia_flag.c \
 	$(DIR1)move.c \
 	$(DIR1)move_consequence.c \
+	$(DIR1)formation_pattern.c \
 
 SRC2=    $(DIR2)main_sdl.c \
 	 $(DIR2)draw.c \

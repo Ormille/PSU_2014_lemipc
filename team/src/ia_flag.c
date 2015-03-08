@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 **
 ** Started on  Thu Mar  5 14:02:15 2015 moran-_d
-** Last update Sun Mar  8 15:21:06 2015 moran-_d
+** Last update Sun Mar  8 19:25:24 2015 moran-_d
 */
 
 #include <stdio.h>
@@ -41,120 +41,31 @@ int	find_player(shared_t *shared, player_t *player, int pair[MAX_PLAYERS][2])
   return (nb_players);
 }
 
-void	get_formation_right(int (*formation)[MAX_PLAYERS][2])
+int find_allies_send_objective(shared_t *shared, player_t *player)
 {
-  int i;
+  msg_t msg;
+  int nb_allies;
+  int x;
+  int y;
 
-  i = 0;
-  (*formation)[i][0] = 1;
-  (*formation)[i][1] = -1;
-  (*formation)[++i][0] = 1;
-  (*formation)[i][1] = 1;
-  (*formation)[++i][0] = 2;
-  (*formation)[i][1] = 0;
-  (*formation)[++i][0] = 2;
-  (*formation)[i][1] = -1;
-  (*formation)[++i][0] = 2;
-  (*formation)[i][1] = 1;
-  (*formation)[++i][0] = 1;
-  (*formation)[i][1] = -2;
-  (*formation)[++i][0] = 1;
-  (*formation)[i][1] = 2;
-  (*formation)[++i][0] = 0;
-  (*formation)[i][1] = -2;
-  (*formation)[++i][0] = 0;
-  (*formation)[i][1] = 2;
-  (*formation)[++i][0] = -1;
-  (*formation)[i][1] = -1;
-  (*formation)[++i][0] = -1;
-  (*formation)[i][1] = 1;
-}
-
-void	get_formation_left(int (*formation)[MAX_PLAYERS][2])
-{
-  int i;
-
-  i = 0;
-  (*formation)[i][0] = -1;
-  (*formation)[i][1] = 1;
-  (*formation)[++i][0] = -1;
-  (*formation)[i][1] = -1;
-  (*formation)[++i][0] = -2;
-  (*formation)[i][1] = 0;
-  (*formation)[++i][0] = -2;
-  (*formation)[i][1] = 1;
-  (*formation)[++i][0] = -2;
-  (*formation)[i][1] = -1;
-  (*formation)[++i][0] = -1;
-  (*formation)[i][1] = -2;
-  (*formation)[++i][0] = -1;
-  (*formation)[i][1] = 2;
-  (*formation)[++i][0] = 0;
-  (*formation)[i][1] = 2;
-  (*formation)[++i][0] = 0;
-  (*formation)[i][1] = -2;
-  (*formation)[++i][0] = 1;
-  (*formation)[i][1] = 1;
-  (*formation)[++i][0] = 1;
-  (*formation)[i][1] = -1;
-}
-
-void	get_formation_down(int (*formation)[MAX_PLAYERS][2])
-{
-  int i;
-
-  i = 0;
-  (*formation)[i][0] = 1;
-  (*formation)[i][1] = 1;
-  (*formation)[++i][0] = -1;
-  (*formation)[i][1] = 1;
-  (*formation)[++i][0] = 0;
-  (*formation)[i][1] = 2;
-  (*formation)[++i][0] = 1;
-  (*formation)[i][1] = 2;
-  (*formation)[++i][0] = -1;
-  (*formation)[i][1] = 2;
-  (*formation)[++i][0] = 2;
-  (*formation)[i][1] = 1;
-  (*formation)[++i][0] = -2;
-  (*formation)[i][1] = 1;
-  (*formation)[++i][0] = 2;
-  (*formation)[i][1] = 0;
-  (*formation)[++i][0] = -2;
-  (*formation)[i][1] = 0;
-  (*formation)[++i][0] = 1;
-  (*formation)[i][1] = -1;
-  (*formation)[++i][0] = -1;
-  (*formation)[i][1] = -1;
-}
-
-void	get_formation_up(int (*formation)[MAX_PLAYERS][2])
-{
-  int i;
-
-  i = 0;
-  (*formation)[i][0] = -1;
-  (*formation)[i][1] = -1;
-  (*formation)[++i][0] = 1;
-  (*formation)[i][1] = -1;
-  (*formation)[++i][0] = 0;
-  (*formation)[i][1] = -2;
-  (*formation)[++i][0] = -1;
-  (*formation)[i][1] = -2;
-  (*formation)[++i][0] = 1;
-  (*formation)[i][1] = -2;
-  (*formation)[++i][0] = -2;
-  (*formation)[i][1] = -1;
-  (*formation)[++i][0] = 2;
-  (*formation)[i][1] = -1;
-  (*formation)[++i][0] = 2;
-  (*formation)[i][1] = 0;
-  (*formation)[++i][0] = -2;
-  (*formation)[i][1] = 0;
-  (*formation)[++i][0] = 1;
-  (*formation)[i][1] = 1;
-  (*formation)[++i][0] = -1;
-  (*formation)[i][1] = 1;
+  nb_allies = 0;
+  msg.val[0] = 0;
+  msg.val[1] = player->objective[0];
+  msg.val[2] = player->objective[1];
+  msg.val[3] = 1;
+  y = -1;
+  while (++y < MAP_Y && (x = -1) < 0)
+    while (++x < MAP_X)
+      if (shared->map[x][y] == player->color
+	  && (x != player->x || y != player->y))
+	{
+	  ++nb_allies;
+	  msg.type = x;
+	  msg.type = msg.type << sizeof(int);
+	  msg.type += y;
+	  msgsnd(shared->msg_id, &msg, MSG_SIZE, 0);
+	}	
+  return (nb_allies);
 }
 
 void   find_formation(player_t *player, int nb_players, int (*formation)[MAX_PLAYERS][2])
@@ -245,19 +156,28 @@ int pair_players_objectives(shared_t *shared, player_t *player)
   int formation[MAX_PLAYERS][2];
   int nb_players;
 
-  // memset(pair[0], -1, sizeof(int) * 2 *MAX_PLAYERS);
-  nb_players = find_player(shared, player, pair[0]); // recup pos joueurs
-  find_formation(player, nb_players, &formation); // definir emplacements ou aller
-  give_formation(&pair, formation, nb_players); // donner a chaque joueur sa position
-
-  send_players_formations(shared, pair, nb_players); // pour envoyer les objectifs aux joueurs via msgq
-
+  nb_players = find_player(shared, player, pair[0]);
+  find_formation(player, nb_players, &formation);
+  give_formation(&pair, formation, nb_players);
+  send_players_formations(shared, pair, nb_players);
   return (0);
+}
+
+void gank(shared_t *shared, player_t *player)
+{
+  if (player->objective[2] == 0)
+    find_allies_send_objective(shared, player);
+  move_toward_objective(shared, player);
 }
 
 int exec_flag(shared_t *shared, player_t *player)
 {
-  pair_players_objectives(shared, player);
-  //  print_map(shared);
+  if (player->objective[2] < 1 && player->x == player->objective[0]
+      && player->y == player->objective[1])
+    player->objective[2] = GROUPING_TURN;
+  if (--(player->objective[2]) > 0)
+    pair_players_objectives(shared, player);
+  else
+    gank(shared, player);
   return (0);
 }

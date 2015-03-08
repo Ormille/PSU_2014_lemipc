@@ -5,13 +5,14 @@
 ** Login   <moran-_d@epitech.net>
 ** 
 ** Started on  Wed Mar  4 20:14:08 2015 moran-_d
-** Last update Sun Mar  8 12:04:18 2015 moran-_d
+** Last update Sun Mar  8 18:30:05 2015 moran-_d
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "lemipc.h"
+#include "ia.h"
 
 /* color > 0 : check for != color */
 /* color < 0 : check for == color * -1 */
@@ -90,13 +91,40 @@ int search_max_enemy_same_team(shared_t *shared, int pos[2],
 
   i = 0;
   max = 0;
-  while (i < MAX_TEAM)
+  while (++i < MAX_TEAM)
     {
       if (i != color)
 	if ((tmp_max = check_entity_in_radius(shared, pos,
 					      radius, color * -1)) > max)
 	  max = tmp_max;
-      ++i;
     }
   return (max);
+}
+
+/* color > 0 : check for != color */
+/* color < 0 : check for == color * -1 */
+/* color == 0 : check for every entities */
+void find_entity(shared_t *shared, int (*get)[2], int pos[2], int color)
+{
+  int tmp_dist;
+  int dist;
+  int x;
+  int y;
+
+  y = -1;
+  dist = 2147483647;
+  (*get)[0] = -1;
+  while (++y < MAP_Y && (x = -1) < 0)
+    while (++x < MAP_X)
+      if (shared->map[x][y] != 0 &&
+	  (pos[0] != x || pos[1] != y) &&
+	  ((color == 0) ||
+	   (color < 0 && shared->map[x][y] == color * -1) ||
+	   (color > 0 && shared->map[x][y] != color)))
+        if ((tmp_dist = distance(x, y, pos[0], pos[1])) < dist)
+	  {
+	    dist = tmp_dist;
+	    (*get)[0] = x;
+	    (*get)[0] = y;
+	  }
 }

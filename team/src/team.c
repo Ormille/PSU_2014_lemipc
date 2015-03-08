@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 **
 ** Started on  Wed Mar  4 15:54:16 2015 moran-_d
-** Last update Sat Mar  7 20:31:48 2015 moran-_d
+** Last update Sun Mar  8 18:15:19 2015 moran-_d
 */
 
 #include <unistd.h>
@@ -48,6 +48,7 @@ int init_team(shared_t *shared, int nb_players)
 {
   int i;
   int color;
+  int ret;
 
   srand(time(NULL));
   if ((color = check_color(shared)) < 0)
@@ -57,10 +58,9 @@ int init_team(shared_t *shared, int nb_players)
     }
   for (i = 1; i < nb_players; i++)
     {
-      if ((create_player(shared, color)) != 0)
-	return (0);
+      if ((ret = (create_player(shared, color))) != 0)
+	return (ret);
     }
   sleep(1);
-  init_player(shared, color, 1);
-  return (0);
+  return (init_player(shared, color, 1));
 }

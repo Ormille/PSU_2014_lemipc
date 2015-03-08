@@ -5,13 +5,41 @@
 ** Login   <moran-_d@epitech.net>
 **
 ** Started on  Thu Mar  5 13:31:46 2015 moran-_d
-** Last update Sun Mar  8 15:42:52 2015 moran-_d
+** Last update Sun Mar  8 19:25:03 2015 moran-_d
 */
 
 #include <unistd.h>
 #include <stdio.h>
 #include "lemipc.h"
 #include "ia.h"
+
+int me_dead(shared_t *shared, player_t *player)
+{
+  int pos[2];
+  msg_t msg;
+
+  if (player->flag == 1)
+    {
+      find_entity(shared, &pos, (int[2]){player->x, player->y},
+		  player->color * -1);
+      if (pos[0] > -1)
+	{
+	  msg.type = pos[0];
+	  msg.type = msg.type << sizeof(int);
+	  msg.type += pos[1];
+	  msg.val[0] = 3;
+	  msgsnd(shared->msg_id, &msg, MSG_SIZE, 0);
+	}
+      else
+	{
+	  find_entity(shared, &pos, (int[2]){player->x, player->y},
+		      player->color);
+	  if (pos[0] == -1)
+	    return (2);
+	}
+    }
+  return (1);
+}
 
 int check_mailbox(shared_t *shared, player_t *player)
 {
@@ -32,9 +60,11 @@ int check_mailbox(shared_t *shared, player_t *player)
 	  player->objective[2] = msg.val[3];
 	}
       else if (msg.val[0] == 2 && ret != 1) /* dead */
+	ret = me_dead(shared, player);
+      else if (msg.val[0] == 3) /* promotion */
 	{
-	  printf("Oh, i'm dead :'( My position is already cleared on map, BTW\n");
-	  ret = 1;
+	  player->flag = 1;
+	  player->objective[2] = GROUPING_TURN;
 	}
     }
   return (ret);
@@ -52,10 +82,10 @@ int exec_turn(shared_t *shared, player_t *player)
   sops.sem_op = 1;
   ret = -1;
 
-  if (check_mailbox(shared, player) == 1)
+  if ((ret = check_mailbox(shared, player)) != 0)
     {
       semop(shared->sem_id, &sops, 1);
-      return (1);
+      return (ret);
     }
   if (player->flag == 0)
     ret = exec_commoner(shared, player);
