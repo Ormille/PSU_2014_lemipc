@@ -1,11 +1,11 @@
 /*
 ** ia.h for ia in /home/moran-_d/rendu/PSU_2014_lemipc
-** 
+**
 ** Made by moran-_d
 ** Login   <moran-_d@epitech.net>
-** 
+**
 ** Started on  Fri Mar  6 14:40:38 2015 moran-_d
-** Last update Sun Mar  8 22:14:13 2015 moran-_d
+** Last update Sun Mar  8 22:21:21 2015 moran-_d
 */
 
 #ifndef IA_H_

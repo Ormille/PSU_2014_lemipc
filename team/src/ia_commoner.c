@@ -1,11 +1,11 @@
 /*
 ** ia_commoner.c for com in /home/moran-_d/rendu/PSU_2014_lemipc/team/src
-** 
+**
 ** Made by moran-_d
 ** Login   <moran-_d@epitech.net>
-** 
+**
 ** Started on  Thu Mar  5 13:52:54 2015 moran-_d
-** Last update Sun Mar  8 22:16:33 2015 moran-_d
+** Last update Sun Mar  8 22:20:47 2015 moran-_d
 */
 
 #include <stdio.h>

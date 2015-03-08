@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 **
 ** Started on  Thu Mar  5 14:02:15 2015 moran-_d
-** Last update Sun Mar  8 22:02:43 2015 moran-_d
+** Last update Sun Mar  8 22:20:36 2015 moran-_d
 */
 
 #include <stdio.h>
@@ -13,7 +13,8 @@
 #include "lemipc.h"
 #include "ia.h"
 
-int	find_player(shared_t *shared, player_t *player, int pair[MAX_PLAYERS][2])
+int	find_player(shared_t *shared, player_t *player,
+		    int pair[MAX_PLAYERS][2])
 {
   int tmp_dist;
   int dist;
@@ -63,12 +64,13 @@ int find_allies_send_objective(shared_t *shared, player_t *player)
 	  msg.type = x;
 	  msg.type = msg.type << sizeof(int);
 	  msg.type += y;
-	  msgsnd(shared->msg_id, &msg, MSG_SIZE, IPC_NOWAIT);
-	}	
+	  msgsnd(shared->msg_id, &msg, MSG_SIZE, 0);
+	}
   return (nb_allies);
 }
 
-void   find_formation(player_t *player, int nb_players, int (*formation)[MAX_PLAYERS][2])
+void   find_formation(player_t *player, int nb_players,
+		      int (*formation)[MAX_PLAYERS][2])
 {
   int formation_pattern[MAX_PLAYERS][2];
   int i;
@@ -130,7 +132,8 @@ void give_formation(int (*pair)[2][MAX_PLAYERS][2],
     }
 }
 
-void send_players_formations(shared_t *shared, int pair[2][MAX_PLAYERS][2], int nb_players)
+void send_players_formations(shared_t *shared,
+			     int pair[2][MAX_PLAYERS][2], int nb_players)
 {
   int i;
   msg_t msg;
