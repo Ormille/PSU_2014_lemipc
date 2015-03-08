@@ -5,13 +5,13 @@
 ** Login   <moran-_d@epitech.net>
 ** 
 ** Started on  Fri Mar  6 14:40:38 2015 moran-_d
-** Last update Sun Mar  8 19:08:13 2015 moran-_d
+** Last update Sun Mar  8 21:39:55 2015 moran-_d
 */
 
 #ifndef IA_H_
 #define IA_H_
 
-int exec_turn(shared_t *shared, player_t *player);
+int exec_turn(shared_t *shared, player_t *player, int *turn);
 int move_toward_objective(shared_t *shared, player_t *player);
 int move_to(shared_t *shared, player_t *player, int pos[2]);
 int move_safely(shared_t *shared, player_t *player, int pos[2]);
@@ -19,6 +19,7 @@ int exec_commoner(shared_t *shared, player_t *player);
 int exec_flag(shared_t *shared, player_t *player);
 
 int me_dead(shared_t *shared, player_t *player);
+int is_team_alone(shared_t *shared);
 
 /* Move Consequence */
 void move_consequence(shared_t *shared, player_t *player);

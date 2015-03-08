@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 **
 ** Started on  Thu Mar  5 13:31:46 2015 moran-_d
-** Last update Sun Mar  8 20:57:02 2015 moran-_d
+** Last update Sun Mar  8 22:02:58 2015 moran-_d
 */
 
 #include <unistd.h>
@@ -17,9 +17,11 @@ int me_dead(shared_t *shared, player_t *player)
 {
   int pos[2];
   msg_t msg;
+  int winner;
 
   if (player->flag == 1)
     {
+      printf("A FLAG IS DEAD!\n");
       find_entity(shared, &pos, (int[2]){player->x, player->y},
 		  player->color * -1);
       if (pos[0] > -1)
@@ -28,20 +30,15 @@ int me_dead(shared_t *shared, player_t *player)
 	  msg.type = msg.type << sizeof(int);
 	  msg.type += pos[1];
 	  msg.val[0] = 3;
-	  msgsnd(shared->msg_id, &msg, MSG_SIZE, 0);
+	  msgsnd(shared->msg_id, &msg, MSG_SIZE, IPC_NOWAIT);
 	}
-      else
-	{
-	  find_entity(shared, &pos, (int[2]){player->x, player->y},
-		      player->color);
-	  if (pos[0] == -1)
-	    return (2);
-	}
+      if ((winner = is_team_alone(shared)) > 0)
+	return (winner + 5);
     }
   return (1);
 }
 
-int check_mailbox(shared_t *shared, player_t *player)
+int check_mailbox(shared_t *shared, player_t *player, int *turn)
 {
   msg_t msg;
   long id;
@@ -55,11 +52,12 @@ int check_mailbox(shared_t *shared, player_t *player)
     {
       if (msg.val[0] == 0) /* move */
 	{
+	  (*turn) = 0;
 	  player->objective[0] = msg.val[1];
 	  player->objective[1] = msg.val[2];
 	  player->objective[2] = msg.val[3];
 	}
-      else if (msg.val[0] == 2 && ret != 1) /* dead */
+      else if (msg.val[0] == 2) /* dead */
 	ret = me_dead(shared, player);
       else if (msg.val[0] == 3) /* promotion */
 	{
@@ -70,7 +68,7 @@ int check_mailbox(shared_t *shared, player_t *player)
   return (ret);
 }
 
-int exec_turn(shared_t *shared, player_t *player)
+int exec_turn(shared_t *shared, player_t *player, int *turn)
 {
   struct sembuf sops;
   int ret;
@@ -82,16 +80,21 @@ int exec_turn(shared_t *shared, player_t *player)
   sops.sem_op = 1;
   ret = -1;
 
-  if ((ret = check_mailbox(shared, player)) != 0)
+  if ((ret = check_mailbox(shared, player, turn)) != 0)
     {
       semop(shared->sem_id, &sops, 1);
       return (ret);
     }
+  if ((*turn) > 75)
+    player->flag = 1;
+  if (shared->map[player->x][player->y] != player->color)
+    return (1);
   if (player->flag == 0)
     ret = exec_commoner(shared, player);
   else
     ret = exec_flag(shared, player);
 
+  ++(*turn);
   usleep(TURN_TIME);
   semop(shared->sem_id, &sops, 1);
   return (ret);

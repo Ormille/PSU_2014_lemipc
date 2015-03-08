@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 **
 ** Started on  Wed Mar  4 15:58:48 2015 moran-_d
-** Last update Sun Mar  8 19:25:31 2015 moran-_d
+** Last update Sun Mar  8 21:01:41 2015 moran-_d
 */
 
 #include <unistd.h>
@@ -46,13 +46,14 @@ int place_player(shared_t *shared, player_t *player)
 int exec_ia(shared_t *shared, player_t *player)
 {
   int quit;
+  int turn;
 
   quit = 0;
   shared = shared;
   player = player;
   while (quit == 0)
     {
-      quit = exec_turn(shared, player);
+      quit = exec_turn(shared, player, &turn);
     }
   printf("\t\t\tQUITTING %d\n", quit);
   return (quit);

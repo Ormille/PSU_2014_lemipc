@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 **
 ** Started on  Thu Mar  5 14:02:15 2015 moran-_d
-** Last update Sun Mar  8 20:09:16 2015 moran-_d
+** Last update Sun Mar  8 22:02:43 2015 moran-_d
 */
 
 #include <stdio.h>
@@ -63,7 +63,7 @@ int find_allies_send_objective(shared_t *shared, player_t *player)
 	  msg.type = x;
 	  msg.type = msg.type << sizeof(int);
 	  msg.type += y;
-	  msgsnd(shared->msg_id, &msg, MSG_SIZE, 0);
+	  msgsnd(shared->msg_id, &msg, MSG_SIZE, IPC_NOWAIT);
 	}	
   return (nb_allies);
 }
@@ -146,7 +146,7 @@ void send_players_formations(shared_t *shared, int pair[2][MAX_PLAYERS][2], int 
       msg.val[2] = pair[1][i][1];
       msg.val[3] = 0;
       /*      printf("player %d is in x: %d and y: %d and wanna go to x: %d and y: %d -- Color %d -- Id %ld\n", i, pair[0][i][0], pair[0][i][1], pair[1][i][0], pair[1][i][1], shared->map[pair[0][i][0]][pair[0][i][1]], msg.type); */
-      msgsnd(shared->msg_id, &msg, MSG_SIZE, 0);
+      msgsnd(shared->msg_id, &msg, MSG_SIZE, IPC_NOWAIT);
     }
 }
 

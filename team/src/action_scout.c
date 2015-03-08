@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 ** 
 ** Started on  Wed Mar  4 20:14:08 2015 moran-_d
-** Last update Sun Mar  8 20:04:20 2015 moran-_d
+** Last update Sun Mar  8 21:53:48 2015 moran-_d
 */
 
 #include <stdio.h>
@@ -127,4 +127,22 @@ void find_entity(shared_t *shared, int (*get)[2], int pos[2], int color)
 	    (*get)[0] = x;
 	    (*get)[0] = y;
 	  }
+}
+
+int is_team_alone(shared_t *shared)
+{
+  int last_col;
+  int x;
+  int y;
+
+  last_col = 0;
+  y = -1;
+  while (++y < MAP_Y && (x = -1) < 0)
+    while (++x < MAP_X)
+      if (shared->map[x][y] != 0 && last_col == 0)
+	last_col = shared->map[x][y];
+      else if (shared->map[x][y] != 0 && last_col != 0)
+	return (-1);
+  printf("IS TEAM ALONE RET = %d\n", last_col);
+  return (last_col);
 }

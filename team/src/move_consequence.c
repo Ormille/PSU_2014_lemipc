@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 ** 
 ** Started on  Sun Mar  8 11:29:53 2015 moran-_d
-** Last update Sun Mar  8 20:45:32 2015 moran-_d
+** Last update Sun Mar  8 22:02:20 2015 moran-_d
 */
 
 #include <stdlib.h>
@@ -16,18 +16,11 @@ void kill_player(shared_t *shared, player_t *player, int x, int y)
 {
   msg_t msg;
 
-  printf("Player from team %d FRAGGED\n", shared->map[x][y]);
-  if (shared->map[x][y] == 0)
-    {
-      printf("You're trying to kill some air. Genius.\n");
-      return;
-    }
-  shared->map[x][y] = 0;
   msg.type = x;
   msg.type = msg.type << sizeof(int);
   msg.type += y;
   msg.val[0] = 2;
-  msgsnd(shared->msg_id, &msg, MSG_SIZE, 0);
+  msgsnd(shared->msg_id, &msg, MSG_SIZE, IPC_NOWAIT);
   msg_graph(shared, player, 2, (int[2]){x, y});
   msg = msg;
 }
@@ -52,6 +45,9 @@ void move_consequence(shared_t *shared, player_t *player)
 					     1, player->color) >= 2)
 	near[i][2] = 0;
     }
+  while (--s >= 0)
+    if (near[s][2] == 0)
+      shared->map[near[s][0]][near[s][1]] = 0;
   while (--i >= 0)
     {
       if (near[i][2] == 0)
