@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 ** 
 ** Started on  Thu Mar  5 13:52:54 2015 moran-_d
-** Last update Sun Mar  8 14:21:41 2015 moran-_d
+** Last update Sun Mar  8 22:16:33 2015 moran-_d
 */
 
 #include <stdio.h>
@@ -20,8 +20,8 @@ int opportunist_kill(shared_t *shared, player_t *player)
   int size;
 
   size = 0;
-  nearby = (int**)check_teams_in_radius(shared, (int[2]){player->x, player->y}, 2,
-				 &size);
+  nearby = (int**)check_teams_in_radius(shared, (int[2]){player->x, player->y},
+					2, &size);
   while (nearby != NULL && size >= 0)
     {
       if (nearby[size][2] != player->color &&

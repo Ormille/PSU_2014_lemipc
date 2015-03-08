@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 ** 
 ** Started on  Wed Mar  4 20:14:08 2015 moran-_d
-** Last update Sun Mar  8 21:53:48 2015 moran-_d
+** Last update Sun Mar  8 22:18:49 2015 moran-_d
 */
 
 #include <stdio.h>
@@ -143,6 +143,5 @@ int is_team_alone(shared_t *shared)
 	last_col = shared->map[x][y];
       else if (shared->map[x][y] != 0 && last_col != 0)
 	return (-1);
-  printf("IS TEAM ALONE RET = %d\n", last_col);
   return (last_col);
 }

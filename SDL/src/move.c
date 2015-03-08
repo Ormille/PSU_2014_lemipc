@@ -5,7 +5,7 @@
 ** Login   <terran_j@epitech.net>
 **
 ** Started on  Wed Mar  4 15:26:53 2015 Julie Terranova
-** Last update Sun Mar  8 19:24:24 2015 moran-_d
+** Last update Sun Mar  8 22:14:04 2015 moran-_d
 */
 
 #include <unistd.h>
@@ -85,7 +85,7 @@ void    move_picture(shared_t *shared, int (*map)[MAP_Y], t_sdl *mine)
   int y;
 
   x = 0;
-  y = 0;
+  y = -1;
   apply_surface(0, 0, mine->background, mine->screen);
   sops.sem_num = 0;
   sops.sem_flg = 0;
@@ -94,7 +94,7 @@ void    move_picture(shared_t *shared, int (*map)[MAP_Y], t_sdl *mine)
   sops.sem_op = 1;
   shared = shared;
   sops = sops;
-  while (y < MAP_Y)
+  while (++y < MAP_Y)
     {
       x = 0;
       while (x < MAP_X)
@@ -103,7 +103,6 @@ void    move_picture(shared_t *shared, int (*map)[MAP_Y], t_sdl *mine)
 	    apply_surface(x * 15, y * 15, mine->tab[map[x][y]], mine->screen);
 	  x++;
 	}
-      y++;
     }
   semop(shared->sem_id, &sops, 1);
 }

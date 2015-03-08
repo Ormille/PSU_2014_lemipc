@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 **
 ** Started on  Thu Mar  5 13:31:46 2015 moran-_d
-** Last update Sun Mar  8 22:02:58 2015 moran-_d
+** Last update Sun Mar  8 22:16:16 2015 moran-_d
 */
 
 #include <unistd.h>
@@ -49,22 +49,20 @@ int check_mailbox(shared_t *shared, player_t *player, int *turn)
   id = id << sizeof(int);
   id += player->y;
   while (msgrcv(shared->msg_id, &msg, MSG_SIZE, id, IPC_NOWAIT) != -1)
-    {
-      if (msg.val[0] == 0) /* move */
-	{
-	  (*turn) = 0;
-	  player->objective[0] = msg.val[1];
-	  player->objective[1] = msg.val[2];
-	  player->objective[2] = msg.val[3];
-	}
-      else if (msg.val[0] == 2) /* dead */
-	ret = me_dead(shared, player);
-      else if (msg.val[0] == 3) /* promotion */
-	{
-	  player->flag = 1;
-	  player->objective[2] = GROUPING_TURN;
-	}
-    }
+    if (msg.val[0] == 0)
+      {
+	(*turn) = 0;
+	player->objective[0] = msg.val[1];
+	player->objective[1] = msg.val[2];
+	player->objective[2] = msg.val[3];
+      }
+    else if (msg.val[0] == 2)
+      ret = me_dead(shared, player);
+    else if (msg.val[0] == 3)
+      {
+	player->flag = 1;
+	player->objective[2] = GROUPING_TURN;
+      }
   return (ret);
 }
 
@@ -75,11 +73,9 @@ int exec_turn(shared_t *shared, player_t *player, int *turn)
 
   sops.sem_num = 0;
   sops.sem_flg = 0;
-  sops.sem_op = -1;
+  sops.sem_op = (ret = -1);
   semop(shared->sem_id, &sops, 1);
   sops.sem_op = 1;
-  ret = -1;
-
   if ((ret = check_mailbox(shared, player, turn)) != 0)
     {
       semop(shared->sem_id, &sops, 1);
@@ -93,7 +89,6 @@ int exec_turn(shared_t *shared, player_t *player, int *turn)
     ret = exec_commoner(shared, player);
   else
     ret = exec_flag(shared, player);
-
   ++(*turn);
   usleep(TURN_TIME);
   semop(shared->sem_id, &sops, 1);
