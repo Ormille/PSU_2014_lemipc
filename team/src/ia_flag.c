@@ -5,7 +5,7 @@
 ** Login   <moran-_d@epitech.net>
 **
 ** Started on  Thu Mar  5 14:02:15 2015 moran-_d
-** Last update Sun Mar  8 19:25:24 2015 moran-_d
+** Last update Sun Mar  8 20:09:16 2015 moran-_d
 */
 
 #include <stdio.h>
@@ -52,7 +52,7 @@ int find_allies_send_objective(shared_t *shared, player_t *player)
   msg.val[0] = 0;
   msg.val[1] = player->objective[0];
   msg.val[2] = player->objective[1];
-  msg.val[3] = 1;
+  //  msg.val[3] = 1;
   y = -1;
   while (++y < MAP_Y && (x = -1) < 0)
     while (++x < MAP_X)
